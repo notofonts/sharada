@@ -2,7 +2,7 @@
 .appVersion = "3109";
 DisplayStrings = (
 "/KTa/Jihvamuliya.ns",
-"/RTRuu"
+"/U.alt3"
 );
 classes = (
 {
@@ -17199,13 +17199,17 @@ subCategory = Nonspacing;
 },
 {
 glyphname = UU.alt;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:53:16 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor29;
 position = "{120, 0}";
+},
+{
+name = Anchor31;
+position = "{-250, -200}";
 },
 {
 name = _Anchor19;
@@ -17235,13 +17239,17 @@ subCategory = Nonspacing;
 },
 {
 glyphname = UU.alt2;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:53:22 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor29;
 position = "{120, 0}";
+},
+{
+name = Anchor31;
+position = "{-250, -240}";
 },
 {
 name = _Anchor19;
@@ -17602,10 +17610,14 @@ subCategory = Nonspacing;
 },
 {
 glyphname = U.alt3;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:54:02 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor31;
+position = "{-190, -100}";
+},
 {
 name = _Anchor19;
 position = "{91, 167}";
@@ -17653,10 +17665,14 @@ subCategory = Nonspacing;
 },
 {
 glyphname = U.alt4;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:53:55 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor31;
+position = "{-190, -310}";
+},
 {
 name = _Anchor19;
 position = "{156, 0}";
@@ -17694,10 +17710,14 @@ subCategory = Nonspacing;
 },
 {
 glyphname = U.alt5;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:53:58 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor31;
+position = "{-150, -110}";
+},
 {
 name = _Anchor19;
 position = "{110, 141}";
