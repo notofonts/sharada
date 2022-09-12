@@ -2,7 +2,7 @@
 .appVersion = "3109";
 DisplayStrings = (
 "/KTa/Jihvamuliya.ns",
-"/SutraMark/Ka"
+"/II/Anusvara"
 );
 classes = (
 {
@@ -3303,10 +3303,14 @@ category = Letter;
 },
 {
 glyphname = Na;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 10:09:05 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{366, 707}";
+},
 {
 name = Anchor17;
 position = "{505, 710}";
@@ -4448,13 +4452,13 @@ unicode = 111B4;
 },
 {
 glyphname = II;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 10:09:47 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{345, 710}";
+position = "{-101, 987}";
 },
 {
 name = Anchor17;
