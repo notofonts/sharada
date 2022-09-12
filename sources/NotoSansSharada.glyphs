@@ -1,5 +1,9 @@
 {
 .appVersion = "3109";
+DisplayStrings = (
+"/KTa/Jihvamuliya.ns",
+"/RTRuu"
+);
 classes = (
 {
 code = "Ba BhRa Bha Ca Cha DDha DYa Da Dda Ddha Dha GRa Ga Gha HYa Ha JJVa JJa JNna JNya JYa Ja Jha KKa KPRa KSsa KTVa KTa Ka Kha La Lla Ma NDha NTa NTha Na NgKa NgNga Nga NnDda NnSha Nna Nya Pa Pha RGa RHa RJa RKSsa RKa RNna RSsa RTRa RTa RTha RTr RVYa RVa RYa Ra SMa SMr STa STha Sa Sha SsNna SsTta SsTtha Ssa TRa TSa TTha TYa Ta Tha TtKa Tta Ttha Va Ya";
@@ -6730,10 +6734,14 @@ category = Letter;
 },
 {
 glyphname = Jhu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:43:43 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{380, 710}";
+},
 {
 name = Anchor17;
 position = "{735, 710}";
@@ -7060,10 +7068,14 @@ category = Letter;
 },
 {
 glyphname = Shu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:04 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{390, 710}";
+},
 {
 name = Anchor17;
 position = "{670, 710}";
@@ -7259,10 +7271,14 @@ category = Letter;
 },
 {
 glyphname = Guu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:11 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{450, 710}";
+},
 {
 name = Anchor17;
 position = "{560, 710}";
@@ -7466,10 +7482,14 @@ category = Letter;
 },
 {
 glyphname = Nyuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:19 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{350, 710}";
+},
 {
 name = Anchor17;
 position = "{630, 710}";
@@ -7691,10 +7711,14 @@ category = Letter;
 },
 {
 glyphname = Tuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:25 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{350, 710}";
+},
 {
 name = Anchor17;
 position = "{545, 710}";
@@ -7742,7 +7766,7 @@ nodes = (
 "324 524 OFFCURVE",
 "324 497 CURVE SMOOTH",
 "324 456 OFFCURVE",
-"291 448 OFFCURVE",
+"292 442 OFFCURVE",
 "256 442 CURVE SMOOTH",
 "252 442 LINE",
 "252 368 LINE",
@@ -7922,10 +7946,14 @@ category = Letter;
 },
 {
 glyphname = Ruu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:34 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{210, 710}";
+},
 {
 name = Anchor17;
 position = "{390, 710}";
@@ -8107,10 +8135,14 @@ category = Letter;
 },
 {
 glyphname = Ngaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:39 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{520, 710}";
@@ -8172,7 +8204,7 @@ category = Letter;
 },
 {
 glyphname = Jaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:41 +0000";
 layers = (
 {
 anchors = (
@@ -8251,10 +8283,14 @@ category = Letter;
 },
 {
 glyphname = Ttaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:44:46 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{520, 710}";
@@ -8861,10 +8897,14 @@ category = Letter;
 },
 {
 glyphname = Tl;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:01 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{495, 710}";
@@ -9125,10 +9165,14 @@ category = Letter;
 },
 {
 glyphname = JYa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:05 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{635, 710}";
@@ -9304,10 +9348,14 @@ category = Letter;
 },
 {
 glyphname = DYa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:09 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{585, 710}";
@@ -9511,10 +9559,14 @@ category = Letter;
 },
 {
 glyphname = TRa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:14 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{350, 710}";
+},
 {
 name = Anchor17;
 position = "{600, 710}";
@@ -9691,10 +9743,14 @@ category = Letter;
 },
 {
 glyphname = KSsa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:18 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{535, 710}";
@@ -9916,10 +9972,14 @@ category = Letter;
 },
 {
 glyphname = KTa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:43:18 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{330, 710}";
+},
 {
 name = Anchor17;
 position = "{650, 710}";
@@ -10140,10 +10200,14 @@ category = Letter;
 },
 {
 glyphname = JJa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:25 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{625, 710}";
@@ -10352,10 +10416,14 @@ category = Letter;
 },
 {
 glyphname = RGa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:31 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{505, 710}";
@@ -10478,10 +10546,14 @@ category = Letter;
 },
 {
 glyphname = RVa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:36 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{450, 710}";
@@ -10621,10 +10693,14 @@ category = Letter;
 },
 {
 glyphname = RTha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:40 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{540, 710}";
@@ -10793,10 +10869,14 @@ category = Letter;
 },
 {
 glyphname = RSsa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:45 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{500, 710}";
@@ -10951,10 +11031,14 @@ category = Letter;
 },
 {
 glyphname = RTa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:50 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{330, 710}";
+},
 {
 name = Anchor17;
 position = "{480, 710}";
@@ -11029,13 +11113,13 @@ category = Letter;
 },
 {
 glyphname = JNya;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:45:57 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{601, 790}";
+position = "{320, 678}";
 },
 {
 name = Anchor17;
@@ -11127,10 +11211,14 @@ category = Letter;
 },
 {
 glyphname = TTha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:00 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{520, 710}";
@@ -11236,13 +11324,13 @@ category = Letter;
 },
 {
 glyphname = DDha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:02 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{-101, 955}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -11372,10 +11460,14 @@ category = Letter;
 },
 {
 glyphname = NTha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:05 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{470, 710}";
@@ -11462,13 +11554,13 @@ category = Letter;
 },
 {
 glyphname = NDha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:08 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{-183, 920}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -11551,10 +11643,14 @@ category = Letter;
 },
 {
 glyphname = SsTta;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:12 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{290, 710}";
+},
 {
 name = Anchor17;
 position = "{565, 710}";
@@ -11746,10 +11842,14 @@ category = Letter;
 },
 {
 glyphname = SsNna;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:18 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{570, 710}";
@@ -11949,10 +12049,14 @@ category = Letter;
 },
 {
 glyphname = HYa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:23 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{350, 710}";
+},
 {
 name = Anchor17;
 position = "{610, 710}";
@@ -12140,10 +12244,14 @@ category = Letter;
 },
 {
 glyphname = TSa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:27 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{565, 710}";
@@ -12308,10 +12416,14 @@ category = Letter;
 },
 {
 glyphname = STa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:32 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{320, 710}";
+},
 {
 name = Anchor17;
 position = "{575, 710}";
@@ -12484,10 +12596,14 @@ category = Letter;
 },
 {
 glyphname = NgNga;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:36 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{520, 710}";
@@ -12644,10 +12760,14 @@ category = Letter;
 },
 {
 glyphname = TtKa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:42 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{310, 710}";
+},
 {
 name = Anchor17;
 position = "{550, 710}";
@@ -12775,7 +12895,7 @@ category = Letter;
 },
 {
 glyphname = NnSha;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:44 +0000";
 layers = (
 {
 anchors = (
@@ -12880,10 +13000,14 @@ category = Letter;
 },
 {
 glyphname = KRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:46 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{460, 710}";
@@ -12975,13 +13099,13 @@ category = Letter;
 },
 {
 glyphname = KRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:48 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{300, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -13078,10 +13202,14 @@ category = Letter;
 },
 {
 glyphname = DRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:50 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{550, 710}";
@@ -13211,13 +13339,13 @@ category = Letter;
 },
 {
 glyphname = DRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:53 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{360, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -13352,10 +13480,14 @@ category = Letter;
 },
 {
 glyphname = BhRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:55 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{590, 710}";
@@ -13452,13 +13584,13 @@ category = Letter;
 },
 {
 glyphname = BhRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:57 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{315, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -13560,10 +13692,14 @@ category = Letter;
 },
 {
 glyphname = ShRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:46:58 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{650, 710}";
@@ -13655,13 +13791,13 @@ category = Letter;
 },
 {
 glyphname = ShRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:02 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{260, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -13758,10 +13894,14 @@ category = Letter;
 },
 {
 glyphname = KPRa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:06 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{190, 710}";
+},
 {
 name = Anchor17;
 position = "{580, 710}";
@@ -13868,13 +14008,13 @@ category = Letter;
 },
 {
 glyphname = RTRa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:09 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{320, 710}";
+position = "{240, 710}";
 },
 {
 name = Anchor17;
@@ -13964,10 +14104,14 @@ category = Letter;
 },
 {
 glyphname = JJVa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:12 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{625, 710}";
@@ -14082,13 +14226,13 @@ category = Letter;
 },
 {
 glyphname = RKSsa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:17 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{300, 710}";
+position = "{270, 710}";
 },
 {
 name = Anchor17;
@@ -14190,10 +14334,14 @@ category = Letter;
 },
 {
 glyphname = RVYa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:19 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{560, 710}";
@@ -14293,13 +14441,13 @@ category = Letter;
 },
 {
 glyphname = KTVa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:22 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{195, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -14410,10 +14558,14 @@ category = Letter;
 },
 {
 glyphname = NnDdu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:25 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{610, 710}";
@@ -14535,13 +14687,13 @@ category = Letter;
 },
 {
 glyphname = TSu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:27 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{350, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -14633,10 +14785,14 @@ category = Letter;
 },
 {
 glyphname = NTu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:32 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{390, 710}";
+},
 {
 name = Anchor17;
 position = "{495, 710}";
@@ -14729,13 +14885,13 @@ category = Letter;
 },
 {
 glyphname = RTr;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:38 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{300, 710}";
 },
 {
 name = Anchor17;
@@ -14831,10 +14987,14 @@ category = Letter;
 },
 {
 glyphname = RYuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:42 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{120, 710}";
+},
 {
 name = Anchor17;
 position = "{445, 710}";
@@ -14905,13 +15065,13 @@ category = Letter;
 },
 {
 glyphname = STu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:45 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{300, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -15014,10 +15174,14 @@ category = Letter;
 },
 {
 glyphname = SMr;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:47 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{565, 710}";
@@ -15111,13 +15275,13 @@ category = Letter;
 },
 {
 glyphname = RTRaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:49 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -15207,10 +15371,14 @@ category = Letter;
 },
 {
 glyphname = NgKaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:52 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{545, 710}";
@@ -15345,13 +15513,13 @@ category = Letter;
 },
 {
 glyphname = NgNgaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:54 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{380, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -15447,10 +15615,14 @@ category = Letter;
 },
 {
 glyphname = JJaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:56 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{590, 710}";
@@ -15573,13 +15745,13 @@ category = Letter;
 },
 {
 glyphname = JNnaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:57 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -15678,10 +15850,14 @@ category = Letter;
 },
 {
 glyphname = JYaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:47:59 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{580, 710}";
@@ -15766,13 +15942,13 @@ category = Letter;
 },
 {
 glyphname = TtKaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:01 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -15910,10 +16086,14 @@ category = Letter;
 },
 {
 glyphname = NnShaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:03 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{715, 710}";
@@ -16036,13 +16216,13 @@ category = Letter;
 },
 {
 glyphname = Bhu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:05 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -16132,10 +16312,14 @@ category = Letter;
 },
 {
 glyphname = Tu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:07 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{350, 710}";
+},
 {
 name = Anchor17;
 position = "{535, 710}";
@@ -16222,13 +16406,13 @@ category = Letter;
 },
 {
 glyphname = Ddu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:10 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{265, 710}";
+position = "{250, 710}";
 },
 {
 name = Anchor17;
@@ -17557,13 +17741,13 @@ subCategory = Nonspacing;
 },
 {
 glyphname = NTuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:18 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{360, 710}";
+position = "{380, 710}";
 },
 {
 name = Anchor21;
@@ -17680,9 +17864,15 @@ category = Letter;
 },
 {
 glyphname = NnDduu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:21 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -17822,13 +18012,13 @@ category = Letter;
 },
 {
 glyphname = STuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:25 +0000";
 layers = (
 {
 anchors = (
 {
 name = Anchor15;
-position = "{360, 710}";
+position = "{150, 710}";
 }
 );
 layerId = UUID0;
@@ -17950,10 +18140,14 @@ category = Letter;
 },
 {
 glyphname = TSuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:27 +0000";
 layers = (
 {
 anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+},
 {
 name = Anchor17;
 position = "{365, 710}";
@@ -18380,9 +18574,15 @@ subCategory = Nonspacing;
 },
 {
 glyphname = RJaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:30 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18458,9 +18658,15 @@ width = 639;
 },
 {
 glyphname = RNnaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:32 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18546,9 +18752,15 @@ width = 890;
 },
 {
 glyphname = SsNnaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:33 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18656,9 +18868,15 @@ width = 690;
 },
 {
 glyphname = GRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:37 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{450, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18716,9 +18934,15 @@ width = 716;
 },
 {
 glyphname = TRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:40 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{370, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18803,9 +19027,15 @@ width = 770;
 },
 {
 glyphname = SsTtaa;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:42 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -18902,9 +19132,15 @@ width = 595;
 },
 {
 glyphname = KPRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:45 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{200, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -19003,9 +19239,15 @@ width = 718;
 },
 {
 glyphname = RTRu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:48 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{250, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -19095,9 +19337,15 @@ width = 510;
 },
 {
 glyphname = GRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:50 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{450, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -19180,9 +19428,15 @@ width = 740;
 },
 {
 glyphname = TRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:48:54 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{370, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -19271,9 +19525,15 @@ width = 830;
 },
 {
 glyphname = KPRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:49:00 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{200, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
@@ -19376,9 +19636,15 @@ width = 718;
 },
 {
 glyphname = RTRuu;
-lastChange = "2020-09-29 20:40:10 +0000";
+lastChange = "2022-09-12 09:49:03 +0000";
 layers = (
 {
+anchors = (
+{
+name = Anchor15;
+position = "{230, 710}";
+}
+);
 layerId = UUID0;
 paths = (
 {
