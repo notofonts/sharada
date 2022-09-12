@@ -1,6 +1,12 @@
 {
     "tests": [
         {
+            "input": "𑆱𑆶𑇌",
+            "expectation": "Sa=0+700|U.alt4=0@-248,0+0|ShortVowelMark=0@-438,-210+0",
+            "note": "Issue #2",
+            "only": "NotoSansSharada-Regular.ttf"
+        },
+        {
             "expectation": "I=0+224|ShortVowelMark=0@-97,0+0|Sa=0+700|Sa=3+700|U.alt4=3@-248,0+0|ShortVowelMark=3@-350,0+0",
             "input": "𑆱𑆴𑇌𑆱𑆶𑇌",
             "note": "Issue #1333",
