@@ -19842,7 +19842,7 @@ AA = -200;
 };
 };
 };
-manufacturer = "Monotype Imaging Inc., contributions by Simon Cozens";
+manufacturer = "Monotype Imaging Inc.";
 manufacturerURL = "http://www.google.com/get/noto/";
 unitsPerEm = 1000;
 versionMajor = 2;
