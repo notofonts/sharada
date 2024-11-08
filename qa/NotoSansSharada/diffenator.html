@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Diffenator3</title>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+		crossorigin="anonymous"></script>
+	<style type="text/css">
+		@font-face {
+      font-family: "Font Before";
+      src: url();
+    }
+
+    @font-face {
+      font-family: "Font After";
+      src: url();
+    }
+
+    .font-before, .font-after {
+      font-variation-settings: "wght" 400, "wdth" 100;
+    }
+
+    .font-before {
+      font-family: "Font Before", "Adobe Notdef";
+    }
+
+    .font-after {
+      font-family: "Font After", "Adobe Notdef";
+    }
+
+	:root {
+	--node-pt-size: 40px;
+	}
+
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #b3d4f5 !important;
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+    background-color: #ced9e4 !important;
+}
+.nav-item {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 2px;
+}
+
+.nav-pills .nav-link{
+    background-color: #9fcaf5 !important;
+}
+h4 {
+    color: #6f7882 !important;
+}
+
+@font-face {
+    font-family: "Adobe NotDef";
+    src: url(https://cdn.jsdelivr.net/gh/adobe-fonts/adobe-notdef/AND-Regular.ttf);
+}
+
+.box-title {
+    width: 100%;
+    font-size: 8pt;
+    font-weight: 700;
+    border-top: 1px solid black;
+    padding-top: 5px;
+    margin-bottom: 10pt;
+    display: block;
+}
+
+.box {
+    margin-bottom: 20pt;
+    width: 100%;
+    float: left;
+}
+
+.box-text {}
+
+#ui-nav {
+    position: fixed;
+    right: 20px;
+    z-index: 100;
+}
+
+#font-toggle {}
+
+.ui-nav-item {
+    display: block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+    text-align: center;
+    color: white;
+    background-color: black;
+    display: block;
+    font-size: 14pt;
+    padding: 5px;
+    margin: 2px;
+}
+
+/* Stuff needed for the table differ */
+body {
+    font-family: Helvetica;
+}
+
+.node {
+    font-family: courier;
+    cursor: pointer;
+    position: relative;
+    left: 30px;
+    padding: 5px;
+    display: block;
+    border: 1px dashed grey;
+    background-color: #e9e9ee;
+}
+
+.header {
+    font-weight: bold;
+}
+
+.attr-before {
+    color: green;
+    cursor: text;
+}
+
+.attr-after {
+    color: red;
+    cursor: text;
+}
+
+.leaf {
+    font-weight: bold;
+}
+
+.old .cell .new {
+    display: none;
+}
+
+.new .cell .old {
+    display: none;
+}
+
+.both .cell .old {
+    opacity: 0.75;
+    color: red;
+}
+
+.both .cell .new {
+    opacity: 0.75;
+    position: absolute;
+    top: 0;
+    color: green;
+}
+
+.spacer {
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+#ot-panel {
+    max-height: 400px;
+    overflow-y: scroll;
+    background: white;
+    padding: 10px;
+    display: none;
+   }
+
+   .cell{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 5pt;
+    margin: 5pt;
+    width: 50pt;
+    font-size: var(--node-pt-size);
+    line-height: calc(var(--node-pt-size) * 1.5);
+  }
+  .cell-word{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 5pt;
+    margin: 5pt;
+    font-size: var(--node-pt-size);
+    line-height: calc(var(--node-pt-size) * 1.5);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+  .cell-glyph{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    border-radius: 5pt;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 5pt;
+    margin: 5pt;
+    width: calc(var(--node-pt-size) * 2);
+    min-height: calc(var(--node-pt-size) * 2);
+    font-size: var(--node-pt-size);
+  }
+  .cell-glyph.font-before, .cell-word.font-before {
+    background: #eff6f2;
+  }
+  .cell-glyph.font-after, .cell-word.font-after {
+    background: #f7f4f4;
+  }
+
+  .cell-glyph:hover {
+    box-shadow: none;
+    background: #f0f0f5;
+  }
+  .cat-strings .cell {
+    clear: both;
+    position: static;
+    float: none;
+    text-align: left;
+  }
+  .codepoint {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 10pt;
+    line-height: 10pt;
+  }
+  .box-title {
+    clear: both;
+  }
+  .node.closed::before {
+    content: "+";
+    margin-right: 5pt;
+  }
+  .node.open::before {
+    content: "-";
+    margin-right: 5pt;
+  }
+
+  .tooltip pre {
+    background-color: #6f7882;
+    padding: 5px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .tooltip {
+    line-height: 1em;
+  }
+  .tooltip-inner {
+    max-width: 300px;
+  }
+
+  h1,h2,h3,h4,h5 {
+    clear: both;
+  }
+
+  #locationnav li {
+    white-space: wrap;
+  }
+
+  #userdefined div { width: 100%; }
+  
+/* The following rules are used in the WASM version, not in the CLI version.
+   But we keep them here so we can share them between the two versions. */
+
+   .modal-dialog {
+    max-width: 100% !important;
+    margin: 0 !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    display: flex;
+  }
+
+  .fontdrop {
+    padding: 30px;
+    border-radius: 20px;
+    outline: 3px dashed #ffffffff;
+    outline-offset: -20px;
+  }
+
+  #fontbefore {
+    background-color: #ddffdddd;
+  }
+
+  #fontafter {
+    background-color: #ffdddddd;
+  }
+
+  .dragging {
+    background-image: linear-gradient(rgb(0 0 0/5%) 0 0);
+    outline: 5px dashed #ffffffff;
+  }
+
+  #diffkerns {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+		</style>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+		<div id="ui-nav">
+		  <div class="ui-nav-item" id="fonttoggle">Old</div>
+		  <div class="ui-nav-item" id="fontanimate">Animate</div>
+		  <div id="axes">
+		  </div>
+		</div>
+	
+	<div class="row">
+		<div class="col-2">
+			<ul class="nav nav-pills" id="locationnav">
+			</ul>
+		</div>
+		<div class="col-9 mt-3">
+			<div id="title"></div>
+			<div id="cmapdiff"> </div>
+			<div id="main"></div>
+			<div id="userdefined">
+				<h4>User defined sample text</h4>
+				<div contenteditable="true" class="font-before cell-word">
+					You can type your own text here to see it previewed in the fonts.
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div id="diffkerns"> </div>
+			<div id="difftable"> </div>
+		</div>
+	</div>
+	<script type="module">
+		function renderTableDiff(node, toplevel) {
+  var wrapper = $("<div> </div>");
+  if (!node) {
+    return wrapper;
+  }
+  if (Array.isArray(node) && node.length == 2) {
+    var before = $("<span/>");
+    before.addClass("attr-before");
+    before.html(" " + node[0] + " ");
+    var after = $("<span/>");
+    after.addClass("attr-after");
+    after.append(renderTableDiff(node[1], true).children());
+    wrapper.append(before);
+    wrapper.append(after);
+    return wrapper;
+  }
+  if (node.constructor != Object) {
+    var thing = $("<span/>");
+    thing.html(node);
+    wrapper.append(thing);
+    return wrapper;
+  }
+  for (const [key, value] of Object.entries(node)) {
+    var display = $("<div/>");
+    display.addClass("node");
+    if (!toplevel) {
+      display.hide();
+    }
+    display.append(key);
+    display.append(renderTableDiff(value, false).children());
+    if (display.children(".node").length > 0) {
+      display.addClass("closed");
+    }
+    wrapper.append(display);
+  }
+  return wrapper;
+}
+
+function addAGlyph(glyph, where) {
+  let title = "";
+  if (glyph.name) {
+    title = "name: " + glyph.name;
+  }
+  let cp =
+    "<br>U+" +
+    glyph.string.codePointAt(0).toString(16).padStart(4, "0").toUpperCase();
+  where.append(`
+        <div class="cell-glyph font-before">
+        <div data-toggle="tooltip" data-html="true" data-title="${glyph.differing_pixels} pixels"> ${glyph.string}
+        <div class="codepoint" data-toggle="tooltip" data-html="true" data-title="${title}">
+		${cp}
+        </div>
+        </div>
+    `);
+}
+
+function addAWord(diff, where) {
+  if (!diff.buffer_b) {
+    diff.buffer_b = diff.buffer_a;
+  }
+  where.append(`
+		<div class="cell-word font-before">
+		<span data-toggle="tooltip" data-html="true" data-title="Before: <pre>${diff.buffer_a}</pre>After: <pre>${diff.buffer_b}</pre><br>difference: ${diff.differing_pixels} pixels">
+		${diff.word}
+		</span>
+		</div>
+	`);
+}
+
+function diffTables(report) {
+  $("#difftable").empty();
+  $("#difftable").append(`<h4 class="mt-2 box-title">Table-level details</h4>`);
+  $("#difftable").append(
+    renderTableDiff({ tables: report["tables"] }, true).children()
+  );
+  $("#difftable .node").on("click", function (e) {
+    $(this).toggleClass("closed open");
+    $(this).children(".node").toggle();
+    e.stopPropagation();
+  });
+}
+function diffKerns(report) {
+  $("#diffkerns").empty();
+  $("#diffkerns").append(`<h4 class="mt-2">Modified Kerns</h4>`);
+  $("#diffkerns").append(
+    `<table class="table table-striped" id="diffkerns"><tr><th>Pair</th><th>Old</old><th>New</th></table>`
+  );
+  for (let [pair, value] of Object.entries(report["kerns"])) {
+    if (pair == "error") {
+      $("#diffkerns").append(`<p class="text-danger">Error: ${value}</p>`);
+      continue;
+    } else {
+      let row = $("<tr>");
+      row.append(`<td>${pair}</td>`);
+      row.append(`<td>${serializeKernBefore(value)}</td>`);
+      row.append(`<td>${serializeKernAfter(value)}</td>`);
+      $("#diffkerns table").append(row);
+    }
+  }
+}
+
+function serializeKernBefore(kern) {
+  if (Array.isArray(kern)) {
+    return serializeKern(kern[0], -1);
+  }
+  return serializeKern(kern, 0);
+}
+
+function serializeKernAfter(kern) {
+  if (Array.isArray(kern)) {
+    return serializeKern(kern[1], -1);
+  }
+  return serializeKern(kern, 1);
+}
+
+function serializeKern(kern, index) {
+  let string = "";
+  if (kern === null || kern === undefined) {
+    return "(null)";
+  }
+  if (kern.x) {
+    string += serializeKernValue(kern.x, index);
+  } else if (kern.y) {
+    string = "0";
+  }
+
+  if (kern.y) {
+    string += "," + serializeKernValue(kern.y, index);
+  }
+  if (!kern.x_placement && !kern.y_placement) {
+    return string;
+  }
+  string += "@";
+  if (kern.x_placement) {
+    string += serializeKernValue(kern.x_placement, index);
+  } else if (kern.y_placement) {
+    string += "0";
+  }
+  if (kern.y_placement) {
+    string += "," + serializeKernValue(kern.y_placement, index);
+  }
+  return string;
+}
+
+function serializeKernValue(kern, index) {
+  if (typeof kern == "number") {
+    return kern;
+  }
+  let string = "(";
+  let verybig = Object.entries(kern).length > 5;
+  for (let [key, value] of Object.entries(kern)) {
+    if (key == "default") {
+      string += value[index] + " ";
+    } else {
+      string += value[index] + "@" + key + " ";
+    }
+    if (verybig) {
+      string += "<br>";
+    }
+  }
+  return string.trim() + ")";
+}
+
+function cmapDiff(report) {
+  if (report.cmap_diff && (report.cmap_diff.new || report.cmap_diff.missing)) {
+    $("#cmapdiff").append(
+      `<h4 class="mt-2">Added and Removed Encoded Glyphs</h4>`
+    );
+    if (report["cmap_diff"]["new"]) {
+      $("#cmapdiff").append(`<h4 class="box-title">Added Glyphs</h4>`);
+      let added = $("<div>");
+      for (let glyph of report["cmap_diff"]["new"]) {
+        addAGlyph(glyph, added);
+      }
+      $("#cmapdiff").append(added);
+    }
+
+    if (report["cmap_diff"]["missing"]) {
+      $("#cmapdiff").append(`<h4 class="box-title">Removed Glyphs</h4>`);
+      let missing = $("<div>");
+      for (let glyph of report["cmap_diff"]["missing"]) {
+        addAGlyph(glyph, missing);
+      }
+      $("#cmapdiff").append(missing);
+    }
+  } else {
+    $("#cmapdiff").append(`<p>No changes to encoded glyphs</p>`);
+  }
+}
+
+function setupAnimation() {
+  $("#fonttoggle").click(function () {
+    if ($(this).text() == "Old") {
+      $(this).text("New");
+      $(".font-before").removeClass("font-before").addClass("font-after");
+    } else {
+      $(this).text("Old");
+      $(".font-after").removeClass("font-after").addClass("font-before");
+    }
+  });
+
+  let animationHandle;
+  function animate() {
+    $("#fonttoggle").click();
+    animationHandle = setTimeout(animate, 1000);
+  }
+  $("#fontanimate").click(function () {
+    if ($(this).text() == "Animate") {
+      $(this).text("Stop");
+      animate();
+    } else {
+      $(this).text("Animate");
+      clearTimeout(animationHandle);
+    }
+  });
+}
+
+export {
+  renderTableDiff,
+  addAGlyph,
+  addAWord,
+  cmapDiff,
+  diffTables,
+  diffKerns,
+  setupAnimation,
+};
+
+	var report = {"tables":{"GDEF":{"glyph_classes":{"Gha":["Base",null],"uni01A2":[null,"Base"]},"mark_glyph_sets":{"7":[null,["uni0951"]]}},"GPOS":{"script_list":{"DFLT/dflt":{"lookups":{"4":[5,null]}},"shrd/dflt":{"lookups":{"2":[4,3],"3":[5,4]}}},"feature_list":{"abvm":{"7":[null,18],"8":[null,19],"9":[null,20],"10":[null,21],"11":[null,22],"12":[null,23],"13":[null,24]},"dist":{"0":[21,35],"1":[22,36]},"kern":[[21],null],"mark":{"0":[18,25],"1":[19,26],"2":[null,27],"3":[null,28],"4":[null,29],"5":[null,30],"6":[null,31],"7":[null,32]},"mkmk":{"0":[20,33],"1":[null,34]}},"lookup_list":{"0":{"1":{"Gha":[{"x":145},null],"uni01A2":[null,{"x":145}]}},"1":{"0":{"Gha":[{"x":250},null],"uni01A2":[null,{"x":250}]}},"2":{"0":{"Gha":[{"x":330},null],"uni01A2":[null,{"x":330}]}},"3":{"0":{"Gha":[{"x":210},null],"uni01A2":[null,{"x":210}]}},"4":{"1":{"Gha":[{"x":90},null],"uni01A2":[null,{"x":90}]}},"11":{"0":{"marks":{"anchor_0":{"Candrabindu":[{"x":-185,"y":710},null],"Anusvara":[{"x":-70,"y":710},null],"E":[{"x":0,"y":710},null],"AI":[{"x":0,"y":710},null],"uni0951":[{"x":-130,"y":671},null],"Jihvamuliya.ns":[{"x":330,"y":710},null],"Upadhmaniya.ns":[{"x":345,"y":710},null],"ChandrabinduInv":[{"x":0,"y":710},null],"vocL":[null,{"x":0,"y":50}],"vocLL":[null,{"x":100,"y":50}],"Nukta":[null,{"x":250,"y":0}],"ShortVowelMark":[null,{"x":170,"y":0}],"uni1CD7":[null,{"x":-274,"y":0}],"uni1CD9":[null,{"x":-136,"y":0}],"uni1CDC":[null,{"x":-129,"y":0}],"uni1CDD":[null,{"x":-126,"y":0}]},"anchor_1":[{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20}},null],"anchor_2":[{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":170,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0}},null],"anchor_3":[{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}},null]},"bases":{"error":"There are 167 changes, check manually!"}}},"12":{"0":{"marks":{"anchor_0":{"Candrabindu":{"x":[-180,-185]},"uni0951":{"x":[-135,-130]},"ChandrabinduInv":[null,{"x":0,"y":710}]},"anchor_1":[{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20},"SandhiMarkWide":{"x":0,"y":0},"U.alt3":{"x":91,"y":167},"U.alt4":{"x":156,"y":0},"U.alt5":{"x":110,"y":141},"UU.alt3":{"x":96,"y":167},"UU.alt4":{"x":156,"y":0},"UU.alt5":{"x":93,"y":131}},null],"anchor_2":[{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"SandhiMark":{"x":-94,"y":0},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":0,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0},"SandhiMarkLig":{"x":0,"y":0},"uni0952":{"x":-247,"y":64}},null],"anchor_3":[{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}},null]},"bases":{"error":"There are 167 changes, check manually!"}}},"13":{"0":{"marks":{"anchor_0":{"ShortVowelMark":[{"x":0,"y":0},null],"U":[null,{"x":0,"y":0}],"UU":[null,{"x":0,"y":0}],"vocR":[null,{"x":0,"y":0}],"vocRR":[null,{"x":0,"y":0}],"UU.alt":[null,{"x":0,"y":0}],"UU.alt2":[null,{"x":0,"y":0}],"U.alt":[null,{"x":0,"y":0}],"U.alt2":[null,{"x":0,"y":-20}]}},"bases":{"I":[{"anchor_0":{"x":127,"y":0}},null],"Ka":[null,{"anchor_0":{"x":396,"y":0}}],"Kha":[null,{"anchor_0":{"x":632,"y":0}}],"Ga":[null,{"anchor_0":{"x":498,"y":0}}],"uni01A2":[null,{"anchor_0":{"x":673,"y":0}}],"Nga":[null,{"anchor_0":{"x":446,"y":20}}],"Ca":[null,{"anchor_0":{"x":202,"y":34}}],"Cha":[null,{"anchor_0":{"x":555,"y":0}}],"Ja":[null,{"anchor_0":{"x":318,"y":0}}],"Jha":[null,{"anchor_0":{"x":570,"y":0}}],"Nya":[null,{"anchor_0":{"x":550,"y":20}}],"Tta":[null,{"anchor_0":{"x":340,"y":0}}],"Ttha":[null,{"anchor_0":{"x":365,"y":0}}],"Dda":[null,{"anchor_0":{"x":347,"y":20}}],"Ddha":[null,{"anchor_0":{"x":468,"y":0}}],"Nna":[null,{"anchor_0":{"x":639,"y":0}}],"Ta":[null,{"anchor_0":{"x":415,"y":0}}],"Tha":[null,{"anchor_0":{"x":557,"y":0}}],"Da":[null,{"anchor_0":{"x":550,"y":0}}],"Dha":[null,{"anchor_0":{"x":400,"y":0}}],"Na":[null,{"anchor_0":{"x":432,"y":0}}],"Pa":[null,{"anchor_0":{"x":557,"y":0}}],"Pha":[null,{"anchor_0":{"x":300,"y":0}}],"Ba":[null,{"anchor_0":{"x":332,"y":0}}],"Bha":[null,{"anchor_0":{"x":511,"y":0}}],"Ma":[null,{"anchor_0":{"x":581,"y":0}}],"Ya":[null,{"anchor_0":{"x":542,"y":0}}],"Ra":[null,{"anchor_0":{"x":233,"y":25}}],"La":[null,{"anchor_0":{"x":634,"y":0}}],"Lla":[null,{"anchor_0":{"x":196,"y":22}}],"Va":[null,{"anchor_0":{"x":445,"y":0}}],"Sha":[null,{"anchor_0":{"x":597,"y":0}}],"Ssa":[null,{"anchor_0":{"x":557,"y":0}}],"Sa":[null,{"anchor_0":{"x":617,"y":0}}],"Ha":[null,{"anchor_0":{"x":429,"y":28}}],"JYa":[null,{"anchor_0":{"x":535,"y":-27}}],"TYa":[null,{"anchor_0":{"x":500,"y":-23}}],"DYa":[null,{"anchor_0":{"x":580,"y":-20}}],"GRa":[null,{"anchor_0":{"x":498,"y":20}}],"TRa":[null,{"anchor_0":{"x":435,"y":0}}],"BhRa":[null,{"anchor_0":{"x":379,"y":0}}],"KSsa":[null,{"anchor_0":{"x":468,"y":-53}}],"KKa":[null,{"anchor_0":{"x":642,"y":-54}}],"KTa":[null,{"anchor_0":{"x":610,"y":-54}}],"NgKa":[null,{"anchor_0":{"x":357,"y":-245}}],"JJa":[null,{"anchor_0":{"x":290,"y":-247}}],"RKa":[null,{"anchor_0":{"x":357,"y":-245}}],"RGa":[null,{"anchor_0":{"x":498,"y":0}}],"RJa":[null,{"anchor_0":{"x":579,"y":-21}}],"RVa":[null,{"anchor_0":{"x":445,"y":0}}],"RNna":[null,{"anchor_0":{"x":639,"y":0}}],"RTha":[null,{"anchor_0":{"x":320,"y":0}}],"RYa":[null,{"anchor_0":{"x":614,"y":-22}}],"RSsa":[null,{"anchor_0":{"x":500,"y":0}}],"RHa":[null,{"anchor_0":{"x":471,"y":-25}}],"RTa":[null,{"anchor_0":{"x":380,"y":-172}}],"JNya":[null,{"anchor_0":{"x":503,"y":-217}}],"TTha":[null,{"anchor_0":{"x":260,"y":0}}],"DDha":[null,{"anchor_0":{"x":280,"y":-40}}],"NTha":[null,{"anchor_0":{"x":260,"y":0}}],"NDha":[null,{"anchor_0":{"x":275,"y":0}}],"SsTta":[null,{"anchor_0":{"x":420,"y":-230}}],"SsTtha":[null,{"anchor_0":{"x":370,"y":-70}}],"SsNna":[null,{"anchor_0":{"x":501,"y":-11}}],"STha":[null,{"anchor_0":{"x":420,"y":-55}}],"HYa":[null,{"anchor_0":{"x":516,"y":124}}],"NnDda":[null,{"anchor_0":{"x":482,"y":-223}}],"TSa":[null,{"anchor_0":{"x":523,"y":-110}}],"NTa":[null,{"anchor_0":{"x":365,"y":-120}}],"STa":[null,{"anchor_0":{"x":435,"y":-120}}],"SMa":[null,{"anchor_0":{"x":801,"y":-90}}],"NgNga":[null,{"anchor_0":{"x":452,"y":-193}}],"JNna":[null,{"anchor_0":{"x":617,"y":-30}}],"TtKa":[null,{"anchor_0":{"x":351,"y":-240}}],"NnSha":[null,{"anchor_0":{"x":540,"y":-220}}],"KPRa":[null,{"anchor_0":{"x":414,"y":10}}],"RTRa":[null,{"anchor_0":{"x":260,"y":-70}}],"JJVa":[null,{"anchor_0":{"x":475,"y":-245}}],"RKSsa":[null,{"anchor_0":{"x":431,"y":-236}}],"RVYa":[null,{"anchor_0":{"x":370,"y":-125}}],"KTVa":[null,{"anchor_0":{"x":520,"y":-54}}]}}},"14":{"0":{"type":["mark_to_mark","mark_to_base"],"marks":{"anchor_0":{"Candrabindu":[{"x":-185,"y":710},null],"Anusvara":[{"x":-70,"y":710},null],"E":[{"x":0,"y":710},null],"AI":[{"x":0,"y":710},null],"uni0951":[{"x":-135,"y":671},null],"Jihvamuliya.ns":[{"x":330,"y":710},null],"Upadhmaniya.ns":[{"x":345,"y":710},null],"ChandrabinduInv":[{"x":0,"y":710},null],"O":[null,{"x":0,"y":710}],"VowelModifier":[null,{"x":240,"y":710}],"uni1CE0":[null,{"x":213,"y":573}]}},"basemarks":[{"Candrabindu":{"anchor_0":{"x":-187,"y":965}},"Anusvara":{"anchor_0":{"x":-67,"y":897}},"E":{"anchor_0":{"x":0,"y":844}},"AI":{"anchor_0":{"x":0,"y":949}},"O":{"anchor_0":{"x":-315,"y":910}},"uni0951":{"anchor_0":{"x":-130,"y":947}},"Jihvamuliya.ns":{"anchor_0":{"x":301,"y":972}},"Upadhmaniya.ns":{"anchor_0":{"x":345,"y":995}},"ChandrabinduInv":{"anchor_0":{"x":0,"y":965}}},null],"bases":[null,{"letterA":{"anchor_0":{"x":620,"y":710}},"letterAA":{"anchor_0":{"x":620,"y":710}},"letterI":{"anchor_0":{"x":620,"y":710}},"letterII":{"anchor_0":{"x":404,"y":897}},"letterU":{"anchor_0":{"x":540,"y":710}},"letterUU":{"anchor_0":{"x":540,"y":710}},"letterVocR":{"anchor_0":{"x":395,"y":710}},"letterVocRR":{"anchor_0":{"x":450,"y":710}},"letterVocL":{"anchor_0":{"x":565,"y":710}},"letterVocLL":{"anchor_0":{"x":730,"y":710}},"letterE":{"anchor_0":{"x":560,"y":710}},"letterAI":{"anchor_0":{"x":560,"y":865}},"letterO":{"anchor_0":{"x":620,"y":710}},"letterAU":{"anchor_0":{"x":785,"y":710}},"Ka":{"anchor_0":{"x":660,"y":710}},"Kha":{"anchor_0":{"x":680,"y":710}},"Ga":{"anchor_0":{"x":560,"y":710}},"uni01A2":{"anchor_0":{"x":695,"y":710}},"Nga":{"anchor_0":{"x":505,"y":710}},"Ca":{"anchor_0":{"x":590,"y":710}},"Cha":{"anchor_0":{"x":665,"y":710}},"Ja":{"anchor_0":{"x":630,"y":710}},"Jha":{"anchor_0":{"x":725,"y":710}},"Nya":{"anchor_0":{"x":630,"y":710}},"Tta":{"anchor_0":{"x":515,"y":710}},"Ttha":{"anchor_0":{"x":600,"y":710}},"Dda":{"anchor_0":{"x":505,"y":710}},"Ddha":{"anchor_0":{"x":630,"y":710}},"Nna":{"anchor_0":{"x":645,"y":710}},"Ta":{"anchor_0":{"x":615,"y":710}},"Tha":{"anchor_0":{"x":645,"y":710}},"Da":{"anchor_0":{"x":670,"y":710}},"Dha":{"anchor_0":{"x":630,"y":710}},"Na":{"anchor_0":{"x":505,"y":710}},"Pa":{"anchor_0":{"x":655,"y":710}},"Pha":{"anchor_0":{"x":630,"y":710}},"Ba":{"anchor_0":{"x":595,"y":710}},"Bha":{"anchor_0":{"x":625,"y":710}},"Ma":{"anchor_0":{"x":630,"y":710}},"Ya":{"anchor_0":{"x":595,"y":710}},"Ra":{"anchor_0":{"x":390,"y":710}},"La":{"anchor_0":{"x":660,"y":710}},"Lla":{"anchor_0":{"x":575,"y":710}},"Va":{"anchor_0":{"x":515,"y":710}},"Sha":{"anchor_0":{"x":670,"y":710}},"Ssa":{"anchor_0":{"x":655,"y":710}},"Sa":{"anchor_0":{"x":680,"y":710}},"Ha":{"anchor_0":{"x":480,"y":710}},"AA":{"anchor_0":{"x":164,"y":708}},"I":{"anchor_0":{"x":665,"y":800}},"II":{"anchor_0":{"x":230,"y":800}},"AU":{"anchor_0":{"x":250,"y":770}},"Om":{"anchor_0":{"x":620,"y":710}},"Gu":{"anchor_0":{"x":560,"y":710}},"Jhu":{"anchor_0":{"x":735,"y":710}},"Nyu":{"anchor_0":{"x":635,"y":710}},"Ku":{"anchor_0":{"x":470,"y":710}},"Ru":{"anchor_0":{"x":390,"y":710}},"Shu":{"anchor_0":{"x":670,"y":710}},"Kuu":{"anchor_0":{"x":465,"y":710}},"Guu":{"anchor_0":{"x":560,"y":710}},"Jhuu":{"anchor_0":{"x":690,"y":710}},"Nyuu":{"anchor_0":{"x":630,"y":710}},"Dduu":{"anchor_0":{"x":510,"y":710}},"Tuu":{"anchor_0":{"x":545,"y":710}},"Bhuu":{"anchor_0":{"x":600,"y":710}},"Ruu":{"anchor_0":{"x":390,"y":710}},"Shuu":{"anchor_0":{"x":675,"y":710}},"Ngaa":{"anchor_0":{"x":520,"y":710}},"Jaa":{"anchor_0":{"x":570,"y":710}},"Ttaa":{"anchor_0":{"x":520,"y":710}},"Nnaa":{"anchor_0":{"x":650,"y":710}},"Kr":{"anchor_0":{"x":490,"y":710}},"Krr":{"anchor_0":{"x":490,"y":710}},"Kl":{"anchor_0":{"x":480,"y":710}},"Kll":{"anchor_0":{"x":480,"y":710}},"Tl":{"anchor_0":{"x":495,"y":710}},"Tll":{"anchor_0":{"x":495,"y":710}},"JYa":{"anchor_0":{"x":635,"y":710}},"TYa":{"anchor_0":{"x":520,"y":710}},"DYa":{"anchor_0":{"x":585,"y":710}},"GRa":{"anchor_0":{"x":570,"y":710}},"TRa":{"anchor_0":{"x":600,"y":710}},"BhRa":{"anchor_0":{"x":590,"y":710}},"KSsa":{"anchor_0":{"x":535,"y":710}},"KKa":{"anchor_0":{"x":640,"y":710}},"KTa":{"anchor_0":{"x":650,"y":710}},"NgKa":{"anchor_0":{"x":520,"y":710}},"JJa":{"anchor_0":{"x":625,"y":710}},"RKa":{"anchor_0":{"x":520,"y":710}},"RGa":{"anchor_0":{"x":505,"y":710}},"RJa":{"anchor_0":{"x":590,"y":710}},"RVa":{"anchor_0":{"x":450,"y":710}},"RNna":{"anchor_0":{"x":650,"y":710}},"RTha":{"anchor_0":{"x":540,"y":710}},"RYa":{"anchor_0":{"x":600,"y":710}},"RSsa":{"anchor_0":{"x":500,"y":710}},"RHa":{"anchor_0":{"x":555,"y":710}},"RTa":{"anchor_0":{"x":480,"y":710}},"JNya":{"anchor_0":{"x":625,"y":710}},"TTha":{"anchor_0":{"x":520,"y":710}},"DDha":{"anchor_0":{"x":570,"y":710}},"NTha":{"anchor_0":{"x":470,"y":710}},"NDha":{"anchor_0":{"x":490,"y":710}},"SsTta":{"anchor_0":{"x":565,"y":710}},"SsTtha":{"anchor_0":{"x":570,"y":710}},"SsNna":{"anchor_0":{"x":570,"y":710}},"STha":{"anchor_0":{"x":605,"y":710}},"HYa":{"anchor_0":{"x":610,"y":710}},"NnDda":{"anchor_0":{"x":615,"y":710}},"TSa":{"anchor_0":{"x":565,"y":710}},"NTa":{"anchor_0":{"x":500,"y":710}},"STa":{"anchor_0":{"x":575,"y":710}},"SMa":{"anchor_0":{"x":615,"y":710}},"NgNga":{"anchor_0":{"x":520,"y":710}},"JNna":{"anchor_0":{"x":635,"y":710}},"TtKa":{"anchor_0":{"x":550,"y":710}},"NnSha":{"anchor_0":{"x":620,"y":710}},"KRu":{"anchor_0":{"x":460,"y":710}},"KRuu":{"anchor_0":{"x":460,"y":710}},"DRu":{"anchor_0":{"x":550,"y":710}},"DRuu":{"anchor_0":{"x":550,"y":710}},"BhRu":{"anchor_0":{"x":590,"y":710}},"BhRuu":{"anchor_0":{"x":590,"y":710}},"ShRu":{"anchor_0":{"x":650,"y":710}},"ShRuu":{"anchor_0":{"x":650,"y":710}},"KPRa":{"anchor_0":{"x":580,"y":710}},"RTRa":{"anchor_0":{"x":460,"y":710}},"JJVa":{"anchor_0":{"x":625,"y":710}},"RKSsa":{"anchor_0":{"x":505,"y":710}},"RVYa":{"anchor_0":{"x":560,"y":710}},"KTVa":{"anchor_0":{"x":565,"y":710}},"NnDdu":{"anchor_0":{"x":610,"y":710}},"TSu":{"anchor_0":{"x":365,"y":710}},"NTu":{"anchor_0":{"x":495,"y":710}},"RTr":{"anchor_0":{"x":465,"y":710}},"RYuu":{"anchor_0":{"x":445,"y":710}},"STu":{"anchor_0":{"x":535,"y":710}},"SMr":{"anchor_0":{"x":565,"y":710}},"RTRaa":{"anchor_0":{"x":550,"y":710}},"NgKaa":{"anchor_0":{"x":545,"y":710}},"NgNgaa":{"anchor_0":{"x":525,"y":710}},"JJaa":{"anchor_0":{"x":590,"y":710}},"JNnaa":{"anchor_0":{"x":625,"y":710}},"JYaa":{"anchor_0":{"x":580,"y":710}},"TtKaa":{"anchor_0":{"x":561,"y":710}},"NnShaa":{"anchor_0":{"x":715,"y":710}},"Bhu":{"anchor_0":{"x":595,"y":710}},"Tu":{"anchor_0":{"x":535,"y":710}},"Ddu":{"anchor_0":{"x":505,"y":710}},"TSuu":{"anchor_0":{"x":365,"y":710}}}]}},"15":{"0":{"type":["mark_to_mark","mark_to_base"],"marks":{"anchor_0":{"O":[{"x":0,"y":710},null],"VowelModifier":[{"x":240,"y":710},null],"uni1CE0":[{"x":213,"y":573},null],"Candrabindu":[null,{"x":-180,"y":710}],"Anusvara":[null,{"x":-70,"y":710}],"E":[null,{"x":0,"y":710}],"AI":[null,{"x":0,"y":710}],"uni0951":[null,{"x":-135,"y":671}],"Jihvamuliya.ns":[null,{"x":330,"y":710}],"Upadhmaniya.ns":[null,{"x":345,"y":710}]}},"basemarks":[{"O":{"anchor_0":{"x":0,"y":880}},"Jihvamuliya.ns":{"anchor_0":{"x":635,"y":980}},"Upadhmaniya.ns":{"anchor_0":{"x":655,"y":1007}}},null],"bases":[null,{"letterA":{"anchor_0":{"x":340,"y":710}},"letterAA":{"anchor_0":{"x":340,"y":710}},"letterI":{"anchor_0":{"x":340,"y":710}},"letterII":{"anchor_0":{"x":225,"y":875}},"letterU":{"anchor_0":{"x":340,"y":710}},"letterUU":{"anchor_0":{"x":340,"y":710}},"letterVocR":{"anchor_0":{"x":200,"y":710}},"letterVocRR":{"anchor_0":{"x":220,"y":710}},"letterVocL":{"anchor_0":{"x":295,"y":710}},"letterVocLL":{"anchor_0":{"x":340,"y":710}},"letterE":{"anchor_0":{"x":290,"y":710}},"letterAI":{"anchor_0":{"x":275,"y":840}},"letterO":{"anchor_0":{"x":340,"y":710}},"letterAU":{"anchor_0":{"x":405,"y":710}},"Ka":{"anchor_0":{"x":345,"y":710}},"Kha":{"anchor_0":{"x":345,"y":710}},"Ga":{"anchor_0":{"x":300,"y":710}},"uni01A2":{"anchor_0":{"x":370,"y":710}},"Nga":{"anchor_0":{"x":260,"y":710}},"Ca":{"anchor_0":{"x":320,"y":710}},"Cha":{"anchor_0":{"x":345,"y":710}},"Ja":{"anchor_0":{"x":345,"y":710}},"Jha":{"anchor_0":{"x":370,"y":710}},"Nya":{"anchor_0":{"x":325,"y":710}},"Tta":{"anchor_0":{"x":280,"y":710}},"Ttha":{"anchor_0":{"x":345,"y":710}},"Dda":{"anchor_0":{"x":275,"y":710}},"Ddha":{"anchor_0":{"x":305,"y":710}},"Nna":{"anchor_0":{"x":345,"y":710}},"Ta":{"anchor_0":{"x":385,"y":710}},"Tha":{"anchor_0":{"x":325,"y":710}},"Da":{"anchor_0":{"x":345,"y":710}},"Dha":{"anchor_0":{"x":345,"y":710}},"Na":{"anchor_0":{"x":260,"y":710}},"Pa":{"anchor_0":{"x":325,"y":710}},"Pha":{"anchor_0":{"x":335,"y":710}},"Ba":{"anchor_0":{"x":300,"y":710}},"Bha":{"anchor_0":{"x":345,"y":710}},"Ma":{"anchor_0":{"x":325,"y":710}},"Ya":{"anchor_0":{"x":300,"y":710}},"Ra":{"anchor_0":{"x":210,"y":710}},"La":{"anchor_0":{"x":345,"y":710}},"Lla":{"anchor_0":{"x":300,"y":710}},"Va":{"anchor_0":{"x":255,"y":710}},"Sha":{"anchor_0":{"x":350,"y":710}},"Ssa":{"anchor_0":{"x":325,"y":710}},"Sa":{"anchor_0":{"x":365,"y":710}},"Ha":{"anchor_0":{"x":220,"y":710}},"Om":{"anchor_0":{"x":340,"y":710}},"Gu":{"anchor_0":{"x":300,"y":710}},"Jhu":{"anchor_0":{"x":370,"y":710}},"Nyu":{"anchor_0":{"x":300,"y":710}},"Ku":{"anchor_0":{"x":245,"y":710}},"Ru":{"anchor_0":{"x":205,"y":710}},"Shu":{"anchor_0":{"x":355,"y":710}},"Kuu":{"anchor_0":{"x":250,"y":710}},"Guu":{"anchor_0":{"x":300,"y":710}},"Jhuu":{"anchor_0":{"x":360,"y":710}},"Nyuu":{"anchor_0":{"x":315,"y":710}},"Dduu":{"anchor_0":{"x":260,"y":710}},"Tuu":{"anchor_0":{"x":320,"y":710}},"Bhuu":{"anchor_0":{"x":300,"y":710}},"Ruu":{"anchor_0":{"x":195,"y":710}},"Shuu":{"anchor_0":{"x":350,"y":710}},"Ngaa":{"anchor_0":{"x":265,"y":710}},"Jaa":{"anchor_0":{"x":300,"y":710}},"Ttaa":{"anchor_0":{"x":265,"y":710}},"Nnaa":{"anchor_0":{"x":380,"y":710}},"Kr":{"anchor_0":{"x":265,"y":710}},"Krr":{"anchor_0":{"x":265,"y":710}},"Kl":{"anchor_0":{"x":265,"y":710}},"Kll":{"anchor_0":{"x":265,"y":710}},"Tl":{"anchor_0":{"x":360,"y":710}},"Tll":{"anchor_0":{"x":360,"y":710}},"JYa":{"anchor_0":{"x":330,"y":710}},"TYa":{"anchor_0":{"x":290,"y":710}},"DYa":{"anchor_0":{"x":305,"y":710}},"GRa":{"anchor_0":{"x":295,"y":710}},"TRa":{"anchor_0":{"x":365,"y":710}},"BhRa":{"anchor_0":{"x":310,"y":710}},"KSsa":{"anchor_0":{"x":265,"y":710}},"KKa":{"anchor_0":{"x":315,"y":710}},"KTa":{"anchor_0":{"x":320,"y":710}},"NgKa":{"anchor_0":{"x":280,"y":710}},"JJa":{"anchor_0":{"x":320,"y":710}},"RKa":{"anchor_0":{"x":310,"y":710}},"RGa":{"anchor_0":{"x":265,"y":710}},"RJa":{"anchor_0":{"x":295,"y":710}},"RVa":{"anchor_0":{"x":225,"y":710}},"RNna":{"anchor_0":{"x":315,"y":710}},"RTha":{"anchor_0":{"x":240,"y":710}},"RYa":{"anchor_0":{"x":265,"y":710}},"RSsa":{"anchor_0":{"x":265,"y":710}},"RHa":{"anchor_0":{"x":190,"y":710}},"RTa":{"anchor_0":{"x":280,"y":710}},"JNya":{"anchor_0":{"x":315,"y":710}},"TTha":{"anchor_0":{"x":225,"y":710}},"DDha":{"anchor_0":{"x":300,"y":710}},"NTha":{"anchor_0":{"x":240,"y":710}},"NDha":{"anchor_0":{"x":240,"y":710}},"SsTta":{"anchor_0":{"x":285,"y":710}},"SsTtha":{"anchor_0":{"x":285,"y":710}},"SsNna":{"anchor_0":{"x":285,"y":710}},"STha":{"anchor_0":{"x":315,"y":710}},"HYa":{"anchor_0":{"x":335,"y":710}},"NnDda":{"anchor_0":{"x":310,"y":710}},"TSa":{"anchor_0":{"x":200,"y":710}},"NTa":{"anchor_0":{"x":245,"y":710}},"STa":{"anchor_0":{"x":285,"y":710}},"SMa":{"anchor_0":{"x":285,"y":710}},"NgNga":{"anchor_0":{"x":265,"y":710}},"JNna":{"anchor_0":{"x":335,"y":710}},"TtKa":{"anchor_0":{"x":305,"y":710}},"NnSha":{"anchor_0":{"x":300,"y":710}},"KRu":{"anchor_0":{"x":245,"y":710}},"KRuu":{"anchor_0":{"x":245,"y":710}},"DRu":{"anchor_0":{"x":285,"y":710}},"DRuu":{"anchor_0":{"x":285,"y":710}},"BhRu":{"anchor_0":{"x":300,"y":710}},"BhRuu":{"anchor_0":{"x":300,"y":710}},"ShRu":{"anchor_0":{"x":350,"y":710}},"ShRuu":{"anchor_0":{"x":350,"y":710}},"KPRa":{"anchor_0":{"x":245,"y":710}},"RTRa":{"anchor_0":{"x":205,"y":710}},"JJVa":{"anchor_0":{"x":315,"y":710}},"RKSsa":{"anchor_0":{"x":270,"y":710}},"RVYa":{"anchor_0":{"x":245,"y":710}},"KTVa":{"anchor_0":{"x":245,"y":710}},"NnDdu":{"anchor_0":{"x":315,"y":710}},"TSu":{"anchor_0":{"x":190,"y":710}},"NTu":{"anchor_0":{"x":260,"y":710}},"RTr":{"anchor_0":{"x":280,"y":710}},"RYuu":{"anchor_0":{"x":235,"y":710}},"STu":{"anchor_0":{"x":285,"y":710}},"SMr":{"anchor_0":{"x":285,"y":710}},"RTRaa":{"anchor_0":{"x":295,"y":710}},"NgKaa":{"anchor_0":{"x":315,"y":710}},"NgNgaa":{"anchor_0":{"x":280,"y":710}},"JJaa":{"anchor_0":{"x":295,"y":710}},"JNnaa":{"anchor_0":{"x":325,"y":710}},"JYaa":{"anchor_0":{"x":300,"y":710}},"TtKaa":{"anchor_0":{"x":290,"y":710}},"NnShaa":{"anchor_0":{"x":315,"y":710}},"Bhu":{"anchor_0":{"x":300,"y":710}},"Tu":{"anchor_0":{"x":310,"y":710}},"Ddu":{"anchor_0":{"x":260,"y":710}}}]}},"16":{"0":{"type":["mark_to_mark","mark_to_base"],"marks":{"anchor_0":{"U":[null,{"x":0,"y":0}],"UU":[null,{"x":0,"y":0}],"vocR":[null,{"x":0,"y":0}],"vocRR":[null,{"x":0,"y":0}],"UU.alt":[null,{"x":0,"y":0}],"UU.alt2":[null,{"x":0,"y":0}],"U.alt":[null,{"x":0,"y":0}],"U.alt2":[null,{"x":0,"y":-20}],"U.alt3":[null,{"x":91,"y":167}],"U.alt4":[null,{"x":156,"y":0}],"U.alt5":[null,{"x":110,"y":141}],"UU.alt3":[null,{"x":96,"y":167}],"UU.alt4":[null,{"x":156,"y":0}],"UU.alt5":[null,{"x":93,"y":131}]}},"basemarks":[{"U":{"anchor_0":{"x":-40,"y":0}},"UU":{"anchor_0":{"x":120,"y":0}},"UU.alt":{"anchor_0":{"x":120,"y":0}},"UU.alt2":{"anchor_0":{"x":120,"y":0}},"U.alt":{"anchor_0":{"x":120,"y":0}},"U.alt2":{"anchor_0":{"x":120,"y":0}}},null],"bases":[null,{"Ka":{"anchor_0":{"x":396,"y":0}},"Kha":{"anchor_0":{"x":632,"y":0}},"Ga":{"anchor_0":{"x":498,"y":0}},"uni01A2":{"anchor_0":{"x":673,"y":0}},"Nga":{"anchor_0":{"x":446,"y":20}},"Ca":{"anchor_0":{"x":202,"y":34}},"Cha":{"anchor_0":{"x":420,"y":15}},"Ja":{"anchor_0":{"x":318,"y":0}},"Jha":{"anchor_0":{"x":570,"y":0}},"Nya":{"anchor_0":{"x":550,"y":20}},"Tta":{"anchor_0":{"x":340,"y":0}},"Ttha":{"anchor_0":{"x":365,"y":0}},"Dda":{"anchor_0":{"x":347,"y":20}},"Ddha":{"anchor_0":{"x":468,"y":0}},"Nna":{"anchor_0":{"x":639,"y":0}},"Ta":{"anchor_0":{"x":415,"y":0}},"Tha":{"anchor_0":{"x":557,"y":0}},"Da":{"anchor_0":{"x":550,"y":0}},"Dha":{"anchor_0":{"x":400,"y":0}},"Na":{"anchor_0":{"x":432,"y":0}},"Pa":{"anchor_0":{"x":557,"y":0}},"Pha":{"anchor_0":{"x":300,"y":0}},"Ba":{"anchor_0":{"x":332,"y":0}},"Bha":{"anchor_0":{"x":511,"y":0}},"Ma":{"anchor_0":{"x":581,"y":0}},"Ya":{"anchor_0":{"x":542,"y":0}},"Ra":{"anchor_0":{"x":233,"y":25}},"La":{"anchor_0":{"x":634,"y":0}},"Lla":{"anchor_0":{"x":196,"y":22}},"Va":{"anchor_0":{"x":445,"y":0}},"Sha":{"anchor_0":{"x":597,"y":0}},"Ssa":{"anchor_0":{"x":557,"y":0}},"Sa":{"anchor_0":{"x":608,"y":0}},"Ha":{"anchor_0":{"x":429,"y":28}},"Separator":{"anchor_0":{"x":59,"y":0}},"JYa":{"anchor_0":{"x":535,"y":-27}},"TYa":{"anchor_0":{"x":500,"y":-23}},"DYa":{"anchor_0":{"x":580,"y":-20}},"GRa":{"anchor_0":{"x":498,"y":20}},"TRa":{"anchor_0":{"x":435,"y":0}},"BhRa":{"anchor_0":{"x":379,"y":0}},"KSsa":{"anchor_0":{"x":468,"y":-53}},"KKa":{"anchor_0":{"x":364,"y":0}},"KTa":{"anchor_0":{"x":416,"y":-6}},"NgKa":{"anchor_0":{"x":357,"y":-245}},"JJa":{"anchor_0":{"x":290,"y":-247}},"RKa":{"anchor_0":{"x":357,"y":-245}},"RGa":{"anchor_0":{"x":498,"y":0}},"RJa":{"anchor_0":{"x":579,"y":-21}},"RVa":{"anchor_0":{"x":445,"y":0}},"RNna":{"anchor_0":{"x":639,"y":0}},"RTha":{"anchor_0":{"x":320,"y":0}},"RYa":{"anchor_0":{"x":614,"y":-22}},"RSsa":{"anchor_0":{"x":500,"y":0}},"RHa":{"anchor_0":{"x":471,"y":-25}},"RTa":{"anchor_0":{"x":350,"y":-146}},"JNya":{"anchor_0":{"x":503,"y":-208}},"TTha":{"anchor_0":{"x":260,"y":0}},"DDha":{"anchor_0":{"x":280,"y":-40}},"NTha":{"anchor_0":{"x":260,"y":0}},"NDha":{"anchor_0":{"x":275,"y":0}},"SsTta":{"anchor_0":{"x":420,"y":-230}},"SsTtha":{"anchor_0":{"x":370,"y":-70}},"SsNna":{"anchor_0":{"x":501,"y":-11}},"STha":{"anchor_0":{"x":420,"y":-55}},"HYa":{"anchor_0":{"x":516,"y":124}},"NnDda":{"anchor_0":{"x":482,"y":-223}},"TSa":{"anchor_0":{"x":523,"y":-110}},"NTa":{"anchor_0":{"x":365,"y":-120}},"STa":{"anchor_0":{"x":435,"y":-120}},"SMa":{"anchor_0":{"x":801,"y":-90}},"NgNga":{"anchor_0":{"x":452,"y":-193}},"JNna":{"anchor_0":{"x":617,"y":-30}},"TtKa":{"anchor_0":{"x":351,"y":-240}},"NnSha":{"anchor_0":{"x":540,"y":-220}},"KPRa":{"anchor_0":{"x":414,"y":10}},"RTRa":{"anchor_0":{"x":260,"y":-70}},"JJVa":{"anchor_0":{"x":475,"y":-245}},"RKSsa":{"anchor_0":{"x":431,"y":-236}},"RVYa":{"anchor_0":{"x":370,"y":-125}},"KTVa":{"anchor_0":{"x":520,"y":-54}}}]}},"17":{"0":{"type":["mark_to_mark","mark_to_base"],"marks":{"anchor_0":{"ShortVowelMark":[{"x":0,"y":0},null],"O":[null,{"x":0,"y":710}],"VowelModifier":[null,{"x":240,"y":710}],"uni1CE0":[null,{"x":213,"y":573}]}},"basemarks":[{"U":{"anchor_0":{"x":-250,"y":-100}},"UU.alt":{"anchor_0":{"x":-250,"y":-200}},"UU.alt2":{"anchor_0":{"x":-250,"y":-240}},"U.alt":{"anchor_0":{"x":-250,"y":-100}},"U.alt2":{"anchor_0":{"x":-257,"y":-148}},"U.alt3":{"anchor_0":{"x":-190,"y":-100}},"U.alt4":{"anchor_0":{"x":-190,"y":-310}},"U.alt5":{"anchor_0":{"x":-150,"y":-110}}},null],"bases":[null,{"letterA":{"anchor_0":{"x":620,"y":710}},"letterAA":{"anchor_0":{"x":620,"y":710}},"letterI":{"anchor_0":{"x":620,"y":710}},"letterII":{"anchor_0":{"x":404,"y":897}},"letterU":{"anchor_0":{"x":540,"y":710}},"letterUU":{"anchor_0":{"x":540,"y":710}},"letterVocR":{"anchor_0":{"x":395,"y":710}},"letterVocRR":{"anchor_0":{"x":450,"y":710}},"letterVocL":{"anchor_0":{"x":565,"y":710}},"letterVocLL":{"anchor_0":{"x":730,"y":710}},"letterE":{"anchor_0":{"x":560,"y":710}},"letterAI":{"anchor_0":{"x":560,"y":865}},"letterO":{"anchor_0":{"x":620,"y":710}},"letterAU":{"anchor_0":{"x":785,"y":710}},"Ka":{"anchor_0":{"x":660,"y":710}},"Kha":{"anchor_0":{"x":680,"y":710}},"Ga":{"anchor_0":{"x":560,"y":710}},"uni01A2":{"anchor_0":{"x":695,"y":710}},"Nga":{"anchor_0":{"x":505,"y":710}},"Ca":{"anchor_0":{"x":590,"y":710}},"Cha":{"anchor_0":{"x":665,"y":710}},"Ja":{"anchor_0":{"x":630,"y":710}},"Jha":{"anchor_0":{"x":725,"y":710}},"Nya":{"anchor_0":{"x":630,"y":710}},"Tta":{"anchor_0":{"x":515,"y":710}},"Ttha":{"anchor_0":{"x":600,"y":710}},"Dda":{"anchor_0":{"x":505,"y":710}},"Ddha":{"anchor_0":{"x":630,"y":710}},"Nna":{"anchor_0":{"x":645,"y":710}},"Ta":{"anchor_0":{"x":615,"y":710}},"Tha":{"anchor_0":{"x":645,"y":710}},"Da":{"anchor_0":{"x":670,"y":710}},"Dha":{"anchor_0":{"x":630,"y":710}},"Na":{"anchor_0":{"x":505,"y":710}},"Pa":{"anchor_0":{"x":655,"y":710}},"Pha":{"anchor_0":{"x":630,"y":710}},"Ba":{"anchor_0":{"x":595,"y":710}},"Bha":{"anchor_0":{"x":625,"y":710}},"Ma":{"anchor_0":{"x":630,"y":710}},"Ya":{"anchor_0":{"x":595,"y":710}},"Ra":{"anchor_0":{"x":390,"y":710}},"La":{"anchor_0":{"x":660,"y":710}},"Lla":{"anchor_0":{"x":575,"y":710}},"Va":{"anchor_0":{"x":515,"y":710}},"Sha":{"anchor_0":{"x":670,"y":710}},"Ssa":{"anchor_0":{"x":655,"y":710}},"Sa":{"anchor_0":{"x":680,"y":710}},"Ha":{"anchor_0":{"x":480,"y":710}},"Om":{"anchor_0":{"x":620,"y":710}},"Gu":{"anchor_0":{"x":560,"y":710}},"Jhu":{"anchor_0":{"x":735,"y":710}},"Nyu":{"anchor_0":{"x":635,"y":710}},"Ku":{"anchor_0":{"x":470,"y":710}},"Ru":{"anchor_0":{"x":390,"y":710}},"Shu":{"anchor_0":{"x":670,"y":710}},"Kuu":{"anchor_0":{"x":465,"y":710}},"Guu":{"anchor_0":{"x":560,"y":710}},"Jhuu":{"anchor_0":{"x":690,"y":710}},"Nyuu":{"anchor_0":{"x":630,"y":710}},"Dduu":{"anchor_0":{"x":510,"y":710}},"Tuu":{"anchor_0":{"x":545,"y":710}},"Bhuu":{"anchor_0":{"x":600,"y":710}},"Ruu":{"anchor_0":{"x":390,"y":710}},"Shuu":{"anchor_0":{"x":675,"y":710}},"Ngaa":{"anchor_0":{"x":520,"y":710}},"Jaa":{"anchor_0":{"x":570,"y":710}},"Ttaa":{"anchor_0":{"x":520,"y":710}},"Nnaa":{"anchor_0":{"x":650,"y":710}},"Kr":{"anchor_0":{"x":490,"y":710}},"Krr":{"anchor_0":{"x":490,"y":710}},"Kl":{"anchor_0":{"x":480,"y":710}},"Kll":{"anchor_0":{"x":480,"y":710}},"Tl":{"anchor_0":{"x":495,"y":710}},"Tll":{"anchor_0":{"x":495,"y":710}},"JYa":{"anchor_0":{"x":635,"y":710}},"TYa":{"anchor_0":{"x":520,"y":710}},"DYa":{"anchor_0":{"x":585,"y":710}},"GRa":{"anchor_0":{"x":570,"y":710}},"TRa":{"anchor_0":{"x":600,"y":710}},"BhRa":{"anchor_0":{"x":590,"y":710}},"KSsa":{"anchor_0":{"x":535,"y":710}},"KKa":{"anchor_0":{"x":640,"y":710}},"KTa":{"anchor_0":{"x":650,"y":710}},"NgKa":{"anchor_0":{"x":520,"y":710}},"JJa":{"anchor_0":{"x":625,"y":710}},"RKa":{"anchor_0":{"x":520,"y":710}},"RGa":{"anchor_0":{"x":505,"y":710}},"RJa":{"anchor_0":{"x":590,"y":710}},"RVa":{"anchor_0":{"x":450,"y":710}},"RNna":{"anchor_0":{"x":650,"y":710}},"RTha":{"anchor_0":{"x":540,"y":710}},"RYa":{"anchor_0":{"x":600,"y":710}},"RSsa":{"anchor_0":{"x":500,"y":710}},"RHa":{"anchor_0":{"x":555,"y":710}},"RTa":{"anchor_0":{"x":480,"y":710}},"JNya":{"anchor_0":{"x":625,"y":710}},"TTha":{"anchor_0":{"x":520,"y":710}},"DDha":{"anchor_0":{"x":570,"y":710}},"NTha":{"anchor_0":{"x":470,"y":710}},"NDha":{"anchor_0":{"x":490,"y":710}},"SsTta":{"anchor_0":{"x":565,"y":710}},"SsTtha":{"anchor_0":{"x":570,"y":710}},"SsNna":{"anchor_0":{"x":570,"y":710}},"STha":{"anchor_0":{"x":605,"y":710}},"HYa":{"anchor_0":{"x":610,"y":710}},"NnDda":{"anchor_0":{"x":615,"y":710}},"TSa":{"anchor_0":{"x":565,"y":710}},"NTa":{"anchor_0":{"x":500,"y":710}},"STa":{"anchor_0":{"x":575,"y":710}},"SMa":{"anchor_0":{"x":615,"y":710}},"NgNga":{"anchor_0":{"x":520,"y":710}},"JNna":{"anchor_0":{"x":635,"y":710}},"TtKa":{"anchor_0":{"x":550,"y":710}},"NnSha":{"anchor_0":{"x":620,"y":710}},"KRu":{"anchor_0":{"x":460,"y":710}},"KRuu":{"anchor_0":{"x":460,"y":710}},"DRu":{"anchor_0":{"x":550,"y":710}},"DRuu":{"anchor_0":{"x":550,"y":710}},"BhRu":{"anchor_0":{"x":590,"y":710}},"BhRuu":{"anchor_0":{"x":590,"y":710}},"ShRu":{"anchor_0":{"x":650,"y":710}},"ShRuu":{"anchor_0":{"x":650,"y":710}},"KPRa":{"anchor_0":{"x":580,"y":710}},"RTRa":{"anchor_0":{"x":460,"y":710}},"JJVa":{"anchor_0":{"x":625,"y":710}},"RKSsa":{"anchor_0":{"x":505,"y":710}},"RVYa":{"anchor_0":{"x":560,"y":710}},"KTVa":{"anchor_0":{"x":565,"y":710}},"NnDdu":{"anchor_0":{"x":610,"y":710}},"TSu":{"anchor_0":{"x":365,"y":710}},"NTu":{"anchor_0":{"x":495,"y":710}},"RTr":{"anchor_0":{"x":465,"y":710}},"RYuu":{"anchor_0":{"x":445,"y":710}},"STu":{"anchor_0":{"x":535,"y":710}},"SMr":{"anchor_0":{"x":565,"y":710}},"RTRaa":{"anchor_0":{"x":550,"y":710}},"NgKaa":{"anchor_0":{"x":545,"y":710}},"NgNgaa":{"anchor_0":{"x":525,"y":710}},"JJaa":{"anchor_0":{"x":590,"y":710}},"JNnaa":{"anchor_0":{"x":625,"y":710}},"JYaa":{"anchor_0":{"x":580,"y":710}},"TtKaa":{"anchor_0":{"x":561,"y":710}},"NnShaa":{"anchor_0":{"x":715,"y":710}},"Bhu":{"anchor_0":{"x":595,"y":710}},"Tu":{"anchor_0":{"x":535,"y":710}},"Ddu":{"anchor_0":{"x":505,"y":710}}}]}},"18":{"0":{"marks":{"anchor_0":{"Candrabindu":[{"x":-185,"y":710},null],"Anusvara":[{"x":-70,"y":710},null],"E":[{"x":0,"y":710},null],"AI":[{"x":0,"y":710},null],"uni0951":[{"x":-130,"y":671},null],"Jihvamuliya.ns":[{"x":330,"y":710},null],"Upadhmaniya.ns":[{"x":345,"y":710},null],"ChandrabinduInv":[{"x":0,"y":710},null],"vocL":[null,{"x":0,"y":50}],"vocLL":[null,{"x":100,"y":50}],"SandhiMark":[null,{"x":-94,"y":0}],"Nukta":[null,{"x":250,"y":0}],"ShortVowelMark":[null,{"x":0,"y":0}],"uni1CD7":[null,{"x":-274,"y":0}],"uni1CD9":[null,{"x":-136,"y":0}],"uni1CDC":[null,{"x":-129,"y":0}],"uni1CDD":[null,{"x":-126,"y":0}],"SandhiMarkLig":[null,{"x":0,"y":0}],"uni0952":[null,{"x":-247,"y":64}]},"anchor_1":[{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20}},null],"anchor_2":[{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":170,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0}},null],"anchor_3":[{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}},null]},"bases":{"error":"There are 153 changes, check manually!"}}},"19":{"0":{"marks":{"anchor_0":{"Candrabindu":[{"x":-180,"y":710},null],"Anusvara":[{"x":-70,"y":710},null],"E":[{"x":0,"y":710},null],"AI":[{"x":0,"y":710},null],"uni0951":[{"x":-135,"y":671},null],"Jihvamuliya.ns":[{"x":330,"y":710},null],"Upadhmaniya.ns":[{"x":345,"y":710},null],"ShortVowelMark":[null,{"x":0,"y":0}]},"anchor_1":[{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20},"SandhiMarkWide":{"x":0,"y":0},"U.alt3":{"x":91,"y":167},"U.alt4":{"x":156,"y":0},"U.alt5":{"x":110,"y":141},"UU.alt3":{"x":96,"y":167},"UU.alt4":{"x":156,"y":0},"UU.alt5":{"x":93,"y":131}},null],"anchor_2":[{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"SandhiMark":{"x":-94,"y":0},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":0,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0},"SandhiMarkLig":{"x":0,"y":0},"uni0952":{"x":-247,"y":64}},null],"anchor_3":[{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}},null]},"bases":{"uni25CC":[{"anchor_0":{"x":298,"y":710},"anchor_1":{"x":350,"y":0},"anchor_2":{"x":297,"y":0},"anchor_3":{"x":546,"y":710}},null],"I":[null,{"anchor_0":{"x":127,"y":0}}]}}},"20":{"0":{"type":["chained_sequence_context","mark_to_base"],"rules":[["[Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","[Ka Kha Gha Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","[Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","[Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","[Ra Ha RVa RTha RYa RHa TTha TSa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","Va'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' ","I'  [Ka Kha Gha Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_10","I'  [Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_10","I'  [Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_6","I'  [Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_8","I'  [Ra Ha RVa RTha RYa RHa TTha TSa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_7","I'  Va'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_6","I'  [Ka Kha Gha Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Anusvara uni0951]' lookup lookup_10","I'  [Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Anusvara uni0951]' lookup lookup_9","I'  [Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Anusvara uni0951]' lookup lookup_6","I'  [Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Anusvara uni0951]' lookup lookup_8","I'  [Ra Ha RVa RTha RYa RHa TTha TSa]'  [Anusvara uni0951]' lookup lookup_7","I'  Va'  [Anusvara uni0951]' lookup lookup_6"],null],"marks":[null,{"anchor_0":{"Candrabindu":{"x":-185,"y":710},"Anusvara":{"x":-70,"y":710},"E":{"x":0,"y":710},"AI":{"x":0,"y":710},"uni0951":{"x":-135,"y":671},"Jihvamuliya.ns":{"x":330,"y":710},"Upadhmaniya.ns":{"x":345,"y":710},"ChandrabinduInv":{"x":0,"y":710}}}],"bases":[null,{"Om":{"anchor_0":{"x":326,"y":965}}}]}},"21":{"0":{"type":["pair","mark_to_mark"],"RTha":[{"AA":{"x":-100}},null],"TTha":[{"AA":{"x":-200}},null],"NTha":[{"AA":{"x":-100}},null],"STha":[{"AA":{"x":-50}},null],"marks":[null,{"anchor_0":{"Candrabindu":{"x":-185,"y":710},"Anusvara":{"x":-70,"y":710},"E":{"x":0,"y":710},"AI":{"x":0,"y":710},"uni0951":{"x":-135,"y":671},"Jihvamuliya.ns":{"x":330,"y":710},"Upadhmaniya.ns":{"x":345,"y":710},"ChandrabinduInv":{"x":0,"y":710}}}],"basemarks":[null,{"Candrabindu":{"anchor_0":{"x":-187,"y":965}},"Anusvara":{"anchor_0":{"x":-67,"y":897}},"E":{"anchor_0":{"x":0,"y":844}},"AI":{"anchor_0":{"x":0,"y":949}},"O":{"anchor_0":{"x":-315,"y":910}},"uni0951":{"anchor_0":{"x":-130,"y":947}},"Jihvamuliya.ns":{"anchor_0":{"x":301,"y":972}},"Upadhmaniya.ns":{"anchor_0":{"x":345,"y":995}},"ChandrabinduInv":{"anchor_0":{"x":0,"y":965}}}]}},"22":{"error":"There are 145 changes, check manually!"},"23":{"0":{"type":["single","mark_to_mark"],"Kha":[{"x":60},null],"Ga":[{"x":60},null],"Gha":[{"x":60},null],"Jha":[{"x":60},null],"Nya":[{"x":60},null],"Nna":[{"x":60},null],"Tha":[{"x":60},null],"Da":[{"x":60},null],"Pa":[{"x":60},null],"Bha":[{"x":60},null],"Ma":[{"x":60},null],"Ya":[{"x":60},null],"Ra":[{"x":60},null],"La":[{"x":60},null],"Sha":[{"x":60},null],"Ssa":[{"x":60},null],"Sa":[{"x":60},null],"marks":[null,{"anchor_0":{"SandhiMarkWide":{"x":0,"y":0}}}],"basemarks":[null,{"U":{"anchor_0":{"x":-40,"y":0}},"UU":{"anchor_0":{"x":120,"y":0}},"UU.alt":{"anchor_0":{"x":120,"y":0}},"UU.alt2":{"anchor_0":{"x":120,"y":0}},"U.alt":{"anchor_0":{"x":120,"y":0}},"U.alt2":{"anchor_0":{"x":120,"y":0}}}]},"1":[{"type":"single","Nga":{"x":125},"Cha":{"x":125},"Tta":{"x":125},"Ttha":{"x":125},"Dda":{"x":125},"Ddha":{"x":125},"Ta":{"x":125},"Dha":{"x":125},"Na":{"x":125},"Ba":{"x":125},"Va":{"x":125},"Ha":{"x":125},"uni25CC":{"x":125}},null],"2":[{"type":"single","Ca":{"x":145,"x_placement":145},"Lla":{"x":145,"x_placement":145}},null],"3":[{"type":"single","Nukta":{"x_placement":-80}},null]},"24":{"0":{"type":["single","mark_to_mark"],"Kha":[{"x":125},null],"Ga":[{"x":125},null],"Gha":[{"x":125},null],"Jha":[{"x":125},null],"Nya":[{"x":125},null],"Nna":[{"x":125},null],"Tha":[{"x":125},null],"Da":[{"x":125},null],"Pa":[{"x":125},null],"Bha":[{"x":125},null],"Ma":[{"x":125},null],"Ya":[{"x":125},null],"Ra":[{"x":125},null],"La":[{"x":125},null],"Sha":[{"x":125},null],"Ssa":[{"x":125},null],"Sa":[{"x":125},null],"marks":[null,{"anchor_0":{"ShortVowelMark":{"x":0,"y":0}}}],"basemarks":[null,{"U":{"anchor_0":{"x":-250,"y":-100}},"UU.alt":{"anchor_0":{"x":-250,"y":-200}},"UU.alt2":{"anchor_0":{"x":-250,"y":-240}},"U.alt":{"anchor_0":{"x":-250,"y":-100}},"U.alt2":{"anchor_0":{"x":-257,"y":-148}},"U.alt3":{"anchor_0":{"x":-190,"y":-100}},"U.alt4":{"anchor_0":{"x":-190,"y":-310}},"U.alt5":{"anchor_0":{"x":-150,"y":-110}}}]},"1":[{"type":"single","Cha":{"x":60},"Tta":{"x":60},"Ttha":{"x":60},"Ddha":{"x":60},"Ta":{"x":60},"Dha":{"x":60},"Ba":{"x":60},"uni25CC":{"x":60}},null],"2":[{"type":"single","Nga":{"x":90},"Dda":{"x":90},"Na":{"x":90},"Va":{"x":90},"Ha":{"x":90}},null],"3":[{"type":"single","Nukta":{"y_placement":-220}},null]},"25":{"0":{"type":["single","mark_to_base"],"Kha":[{"x":230},null],"Ga":[{"x":230},null],"Gha":[{"x":230},null],"Nga":[{"x":230},null],"Jha":[{"x":230},null],"Nya":[{"x":230},null],"Dda":[{"x":230},null],"Nna":[{"x":230},null],"Tha":[{"x":230},null],"Da":[{"x":230},null],"Na":[{"x":230},null],"Pa":[{"x":230},null],"Bha":[{"x":230},null],"Ma":[{"x":230},null],"Ya":[{"x":230},null],"Ra":[{"x":230},null],"La":[{"x":230},null],"Va":[{"x":230},null],"Sha":[{"x":230},null],"Ssa":[{"x":230},null],"Sa":[{"x":230},null],"Ha":[{"x":230},null],"marks":[null,{"anchor_0":{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":170,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":297,"y":0}}}]},"1":[{"type":"single","Nukta":{"x_placement":-100}},null]},"26":{"0":{"type":["single","mark_to_base"],"Kha":[{"x":175},null],"Ga":[{"x":175},null],"Gha":[{"x":175},null],"Jha":[{"x":175},null],"Nya":[{"x":175},null],"Nna":[{"x":175},null],"Tha":[{"x":175},null],"Da":[{"x":175},null],"Pa":[{"x":175},null],"Bha":[{"x":175},null],"Ma":[{"x":175},null],"Ya":[{"x":175},null],"Ra":[{"x":175},null],"La":[{"x":175},null],"Sha":[{"x":175},null],"Ssa":[{"x":175},null],"Sa":[{"x":175},null],"marks":[null,{"anchor_0":{"Candrabindu":{"x":-185,"y":710},"Anusvara":{"x":-70,"y":710},"E":{"x":0,"y":710},"AI":{"x":0,"y":710},"uni0951":{"x":-130,"y":671},"Jihvamuliya.ns":{"x":330,"y":710},"Upadhmaniya.ns":{"x":345,"y":710},"ChandrabinduInv":{"x":0,"y":710}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":331,"y":696}}}]},"1":[{"type":"single","Nga":{"x":60},"Dda":{"x":60},"Na":{"x":60},"Va":{"x":60},"Ha":{"x":60}},null],"2":[{"type":"single","Nukta":{"x_placement":-180}},null]},"27":{"0":{"type":["single","mark_to_base"],"Kha":[{"x":280},null],"Ga":[{"x":280},null],"Gha":[{"x":280},null],"Jha":[{"x":280},null],"Nya":[{"x":280},null],"Nna":[{"x":280},null],"Tha":[{"x":280},null],"Da":[{"x":280},null],"Pa":[{"x":280},null],"Bha":[{"x":280},null],"Ma":[{"x":280},null],"Ya":[{"x":280},null],"Ra":[{"x":280},null],"La":[{"x":280},null],"Sha":[{"x":280},null],"Ssa":[{"x":280},null],"Sa":[{"x":280},null],"marks":[null,{"anchor_0":{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":310,"y":0}}}]},"1":[{"type":"single","Nga":{"x":175},"Dda":{"x":175},"Na":{"x":175},"Va":{"x":175},"Ha":{"x":175}},null],"2":[{"type":"single","Nukta":{"x_placement":80}},null]},"28":{"0":{"type":["single","mark_to_base"],"Nukta":[{"x_placement":100},null],"marks":[null,{"anchor_0":{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":546,"y":710}}}]}},"29":{"0":{"type":["single","mark_to_base"],"Nukta":[{"x_placement":130},null],"marks":[null,{"anchor_0":{"Candrabindu":{"x":-180,"y":710},"Anusvara":{"x":-70,"y":710},"E":{"x":0,"y":710},"AI":{"x":0,"y":710},"uni0951":{"x":-135,"y":671},"Jihvamuliya.ns":{"x":330,"y":710},"Upadhmaniya.ns":{"x":345,"y":710}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":298,"y":710}}}]}},"30":{"0":{"type":["single","mark_to_base"],"Nukta":[{"y_placement":120},null],"marks":[null,{"anchor_0":{"U":{"x":0,"y":0},"UU":{"x":0,"y":0},"vocR":{"x":0,"y":0},"vocRR":{"x":0,"y":0},"UU.alt":{"x":0,"y":0},"UU.alt2":{"x":0,"y":0},"U.alt":{"x":0,"y":0},"U.alt2":{"x":0,"y":-20},"SandhiMarkWide":{"x":0,"y":0},"U.alt3":{"x":91,"y":167},"U.alt4":{"x":156,"y":0},"U.alt5":{"x":110,"y":141},"UU.alt3":{"x":96,"y":167},"UU.alt4":{"x":156,"y":0},"UU.alt5":{"x":93,"y":131}}}],"bases":[null,{"uni25CC":{"anchor_0":{"x":350,"y":0}}}]}},"31":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"O":{"x":0,"y":710},"VowelModifier":{"x":240,"y":710},"uni1CE0":{"x":213,"y":573}}},"bases":{"uni25CC":{"anchor_0":{"x":546,"y":710}}}}]],"32":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"vocL":{"x":0,"y":50},"vocLL":{"x":100,"y":50},"SandhiMark":{"x":-94,"y":0},"Nukta":{"x":250,"y":0},"ShortVowelMark":{"x":0,"y":0},"uni1CD7":{"x":-274,"y":0},"uni1CD9":{"x":-136,"y":0},"uni1CDC":{"x":-129,"y":0},"uni1CDD":{"x":-126,"y":0},"SandhiMarkLig":{"x":0,"y":0},"uni0952":{"x":-247,"y":64}}},"bases":{"uni25CC":{"anchor_0":{"x":297,"y":0}}}}]],"33":[null,[{"type":"mark_to_mark","marks":{"anchor_0":{"Candrabindu":{"x":-185,"y":710},"Anusvara":{"x":-70,"y":710},"E":{"x":0,"y":710},"AI":{"x":0,"y":710},"uni0951":{"x":-135,"y":671},"Jihvamuliya.ns":{"x":330,"y":710},"Upadhmaniya.ns":{"x":345,"y":710},"ChandrabinduInv":{"x":0,"y":710}}},"basemarks":{"uni0951":{"anchor_0":{"x":-130,"y":947}}}}]],"34":[null,[{"type":"chained_sequence_context","rules":["I'  [Ka Kha uni01A2 Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_10"]},{"type":"chained_sequence_context","rules":["I'  [Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_10"]},{"type":"chained_sequence_context","rules":["I'  [Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_6"]},{"type":"chained_sequence_context","rules":["I'  [Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_8"]},{"type":"chained_sequence_context","rules":["I'  [Ra Ha RVa RTha RYa RHa TTha TSa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_7"]},{"type":"chained_sequence_context","rules":["I'  Va'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_6"]},{"type":"chained_sequence_context","rules":["I'  [Ka Kha uni01A2 Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Anusvara uni0951]' lookup lookup_10"]},{"type":"chained_sequence_context","rules":["I'  [Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Anusvara uni0951]' lookup lookup_9"]},{"type":"chained_sequence_context","rules":["I'  [Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Anusvara uni0951]' lookup lookup_6"]},{"type":"chained_sequence_context","rules":["I'  [Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Anusvara uni0951]' lookup lookup_8"]},{"type":"chained_sequence_context","rules":["I'  [Ra Ha RVa RTha RYa RHa TTha TSa]'  [Anusvara uni0951]' lookup lookup_7"]},{"type":"chained_sequence_context","rules":["I'  Va'  [Anusvara uni0951]' lookup lookup_6"]},{"type":"chained_sequence_context","rules":["[Ka Kha uni01A2 Ca Cha Ja Jha Nya Ttha Nna Ta Tha Da Dha Pa Pha Bha Ma La Sha Ssa Sa TRa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]},{"type":"chained_sequence_context","rules":["[Ga Ddha Ba Ya Lla JYa KKa KTa JJa RNna JNya STha HYa JNna]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]},{"type":"chained_sequence_context","rules":["[Nga Na RGa NTha NDha NTa NgNga RVYa KTVa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]},{"type":"chained_sequence_context","rules":["[Tta Dda TYa DYa GRa BhRa KSsa NgKa RKa RJa RSsa RTa DDha SsTta SsTtha SsNna NnDda STa SMa TtKa NnSha KPRa RTRa JJVa RKSsa RTr SMr]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]},{"type":"chained_sequence_context","rules":["[Ra Ha RVa RTha RYa RHa TTha TSa]'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]},{"type":"chained_sequence_context","rules":["Va'  [Candrabindu VowelModifier Jihvamuliya.ns Upadhmaniya.ns ChandrabinduInv]' lookup lookup_5 [II AU]' "]}]],"35":[null,[{"type":"pair","RTha":{"AA":{"x":-100}},"TTha":{"AA":{"x":-200}},"NTha":{"AA":{"x":-100}},"STha":{"AA":{"x":-50}}}]],"36":[null,[{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_4 vocR'  [Ru Ttaa RTha RYuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocR'  [Shu Ngaa Jaa KKa RNna RYa BhRu BhRuu ShRu ShRuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_38 vocR'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_38 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_3 vocRR'  [Ru Ttaa RTha RYuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_39 vocRR'  [Shu Ngaa Jaa KKa RNna RYa BhRu BhRuu ShRu ShRuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_39 vocRR'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocRR'  [Tta Ttha Dha Ba] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocRR'  [Ca Lla uni25CC] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_39 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ru Ttaa RTha RYuu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Tta Ttha Dha Ba] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ja Pha] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocR'  [Ca Lla uni25CC] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_38 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ru Ttaa RTha RYuu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Tta Ttha Dha Ba] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ja Pha] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_2 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_40 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_38 vocR'  [Ca Lla uni25CC] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_40 vocRR'  [Ru Ttaa RTha RYuu] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_38 vocRR'  [Tta Ttha Dha Ba] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_40 vocRR'  [Ja Pha] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_41 vocRR'  [Ca Lla uni25CC] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_39 vocRR'  [Jhuu Nyuu Nnaa RJa NnDda] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_0 vocR'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_1 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocRR'  [Jhuu Nyuu Nnaa RJa NnDda]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu]"]},{"type":"chained_sequence_context","rules":["[Kha Ga uni01A2 Jha Nya Nna Tha Da Pa Bha Ma Ya Ra La Sha Ssa Sa]' lookup lookup_37 vocRR'  [Ru Ttaa RTha RYuu]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_37 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_3 vocRR'  [Ru Ttaa RTha RYuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [Shu Ngaa Jaa KKa RNna RYa BhRu BhRuu ShRu ShRuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_37 vocRR'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_37 vocRR'  [Ru Ttaa RTha RYuu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_2 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_1 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [Jhuu Nyuu Nnaa RJa NnDda]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu]"]},{"type":"chained_sequence_context","rules":["[Cha Tta Ttha Ddha Ta Dha Ba uni25CC]' lookup lookup_38 vocRR'  [Ru Ttaa RTha RYuu]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_4 vocR'  [Ru Ttaa RTha RYuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 vocR'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_38 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_3 vocRR'  [Ru Ttaa RTha RYuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_39 vocRR'  [Shu Ngaa Jaa KKa RNna RYa BhRu BhRuu ShRu ShRuu] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_39 vocRR'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_40 vocRR'  [Tta Ttha Dha Ba] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocRR'  [Ca Lla uni25CC] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_39 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 [uni1CD7 uni1CD9]'  [letterII Ra Kr Krr Kl Kll] [uni1CD7 uni1CD9]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 vocR'  [Ru Ttaa RTha RYuu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Tta Ttha Dha Ba] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ja Pha] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocR'  [Ca Lla uni25CC] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_40 vocR'  [RTa TTha DDha NTha NDha SsTtha RTRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ru Ttaa RTha RYuu] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Tta Ttha Dha Ba] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ja Pha] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_2 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [GRa TRa BhRa KSsa RGa RVa RHa KPRa] [UU UU.alt UU.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 vocR'  [Ca Lla uni25CC] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_41 vocRR'  [Ru Ttaa RTha RYuu] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_38 vocRR'  [Tta Ttha Dha Ba] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_37 vocRR'  [Ja Pha] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_39 vocRR'  [Ca Lla uni25CC] [U U.alt U.alt2]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ca Lla uni25CC] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ja Pha] vocRR"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [letterII Ra Kr Krr Kl Kll] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Tta Ttha Dha Ba] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ca Lla uni25CC] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ja Pha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ka Kha Ga uni01A2 Nga Cha Jha Nya Dda Ddha Nna Ta Tha Da Na Pa Bha Ma Ya La Va Sha Ssa Sa Ha] [vocR vocL vocLL]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 vocR'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_1 vocRR'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_40 vocRR'  [Jhuu Nyuu Nnaa RJa NnDda]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_40 vocRR'  [Gu Jhu Nyu KTa RSsa STha HYa JNna DRu DRuu JNnaa Bhu]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_40 vocRR'  [Ru Ttaa RTha RYuu]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [RTa TTha DDha NTha NDha SsTtha RTRa]"]},{"type":"chained_sequence_context","rules":["[Nga Dda Na Va Ha]' lookup lookup_0 [uni1CD7 uni1CD9]'  [Ku Kuu Guu Dduu Tuu Bhuu Ruu Tl Tll JYa TYa DYa NgKa JJa RKa JNya SsTta SsNna TSa NTa STa NgNga TtKa NnSha KRu KRuu JJVa RKSsa RVYa KTVa NnDdu TSu NTu RTr STu RTRaa NgKaa NgNgaa JJaa JYaa TtKaa NnShaa Tu Ddu TSuu]"]},{"type":"chained_sequence_context","rules":["[Ca Lla]' lookup lookup_37 Nukta'  [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Ca Lla]' lookup lookup_37 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Tha Da Pa]'  Nukta' lookup lookup_37 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["[Tha Da Pa]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Ya Ssa]'  Nukta' lookup lookup_39 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["[Ya Ssa]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Nga Ddha Na Va Ha]'  Nukta' lookup lookup_40 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["[Nga Ddha Na Va Ha]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["Pha'  Nukta' lookup lookup_41 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["Pha'  Nukta' lookup lookup_42 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["Ja'  Nukta' lookup lookup_42 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["Ja'  Nukta' lookup lookup_42 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Tta Ttha Ba]'  Nukta' lookup lookup_43 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["[Tta Ttha Ba]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Cha Dha uni25CC]'  Nukta' lookup lookup_38 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["[Cha Dha uni25CC]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Kha uni01A2 Sa]'  Nukta' lookup lookup_44 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["[Nna La]'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]},{"type":"chained_sequence_context","rules":["Ma'  Nukta' lookup lookup_37 [U U.alt U.alt2]' "]},{"type":"chained_sequence_context","rules":["Ma'  Nukta' lookup lookup_38 [UU UU.alt UU.alt2]' "]}]],"37":[null,[{"type":"single","Kha":{"x":60},"Ga":{"x":60},"uni01A2":{"x":60},"Jha":{"x":60},"Nya":{"x":60},"Nna":{"x":60},"Tha":{"x":60},"Da":{"x":60},"Pa":{"x":60},"Bha":{"x":60},"Ma":{"x":60},"Ya":{"x":60},"Ra":{"x":60},"La":{"x":60},"Sha":{"x":60},"Ssa":{"x":60},"Sa":{"x":60}},{"type":"single","Nga":{"x":125},"Cha":{"x":125},"Tta":{"x":125},"Ttha":{"x":125},"Dda":{"x":125},"Ddha":{"x":125},"Ta":{"x":125},"Dha":{"x":125},"Na":{"x":125},"Ba":{"x":125},"Va":{"x":125},"Ha":{"x":125},"uni25CC":{"x":125}},{"type":"single","Ca":{"x":145,"x_placement":145},"Lla":{"x":145,"x_placement":145}},{"type":"single","Nukta":{"x_placement":-80}}]],"38":[null,[{"type":"single","Kha":{"x":125},"Ga":{"x":125},"uni01A2":{"x":125},"Jha":{"x":125},"Nya":{"x":125},"Nna":{"x":125},"Tha":{"x":125},"Da":{"x":125},"Pa":{"x":125},"Bha":{"x":125},"Ma":{"x":125},"Ya":{"x":125},"Ra":{"x":125},"La":{"x":125},"Sha":{"x":125},"Ssa":{"x":125},"Sa":{"x":125}},{"type":"single","Cha":{"x":60},"Tta":{"x":60},"Ttha":{"x":60},"Ddha":{"x":60},"Ta":{"x":60},"Dha":{"x":60},"Ba":{"x":60},"uni25CC":{"x":60}},{"type":"single","Nga":{"x":90},"Dda":{"x":90},"Na":{"x":90},"Va":{"x":90},"Ha":{"x":90}},{"type":"single","Nukta":{"y_placement":-220}}]],"39":[null,[{"type":"single","Kha":{"x":230},"Ga":{"x":230},"uni01A2":{"x":230},"Nga":{"x":230},"Jha":{"x":230},"Nya":{"x":230},"Dda":{"x":230},"Nna":{"x":230},"Tha":{"x":230},"Da":{"x":230},"Na":{"x":230},"Pa":{"x":230},"Bha":{"x":230},"Ma":{"x":230},"Ya":{"x":230},"Ra":{"x":230},"La":{"x":230},"Va":{"x":230},"Sha":{"x":230},"Ssa":{"x":230},"Sa":{"x":230},"Ha":{"x":230}},{"type":"single","Nukta":{"x_placement":-100}}]],"40":[null,[{"type":"single","Kha":{"x":175},"Ga":{"x":175},"uni01A2":{"x":175},"Jha":{"x":175},"Nya":{"x":175},"Nna":{"x":175},"Tha":{"x":175},"Da":{"x":175},"Pa":{"x":175},"Bha":{"x":175},"Ma":{"x":175},"Ya":{"x":175},"Ra":{"x":175},"La":{"x":175},"Sha":{"x":175},"Ssa":{"x":175},"Sa":{"x":175}},{"type":"single","Nga":{"x":60},"Dda":{"x":60},"Na":{"x":60},"Va":{"x":60},"Ha":{"x":60}},{"type":"single","Nukta":{"x_placement":-180}}]],"41":[null,[{"type":"single","Kha":{"x":280},"Ga":{"x":280},"uni01A2":{"x":280},"Jha":{"x":280},"Nya":{"x":280},"Nna":{"x":280},"Tha":{"x":280},"Da":{"x":280},"Pa":{"x":280},"Bha":{"x":280},"Ma":{"x":280},"Ya":{"x":280},"Ra":{"x":280},"La":{"x":280},"Sha":{"x":280},"Ssa":{"x":280},"Sa":{"x":280}},{"type":"single","Nga":{"x":175},"Dda":{"x":175},"Na":{"x":175},"Va":{"x":175},"Ha":{"x":175}},{"type":"single","Nukta":{"x_placement":80}}]],"42":[null,[{"type":"single","Nukta":{"x_placement":100}}]],"43":[null,[{"type":"single","Nukta":{"x_placement":130}}]],"44":[null,[{"type":"single","Nukta":{"y_placement":120}}]]}},"GSUB":{"lookup_list":{"3":{"0":{"Gha ShortVowelMark":["Gha",null],"uni01A2 ShortVowelMark":[null,"uni01A2"]}},"10":{"0":{"rules":{"0":["[Ka Kha Ga Gha Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]","[KSsa KKa KTa KTVa]'  [U UU]' lookup lookup_2"],"1":["[Ca GRa BhRa HYa KPRa]'  [U UU]' lookup lookup_0",null],"2":["[Ca GRa BhRa HYa KPRa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]",null],"3":["[KSsa KKa KTa KTVa]'  [U UU]' lookup lookup_2",null],"4":["[KSsa KKa KTa KTVa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]",null],"5":["Separator'  uni25CC' lookup lookup_1 SandhiMark' ",null],"6":["Separator'  SandhiMark' lookup lookup_0",null],"7":["SandhiMark' lookup lookup_0 Separator' ",null],"8":["I' lookup lookup_4 [KSsa KKa KTa KTVa]'  ShortVowelMark' lookup lookup_3",null],"9":["I' lookup lookup_4 [Ca GRa BhRa HYa KPRa]'  ShortVowelMark' lookup lookup_3",null],"10":["I' lookup lookup_4 [Ka Kha Ga Gha Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  ShortVowelMark' lookup lookup_3",null],"11":["I'  [KSsa KKa KTa KTVa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]",null],"12":["I'  [Ca GRa BhRa HYa KPRa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]",null],"13":["I'  [Ka Kha Ga Gha Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  SandhiMark' lookup lookup_2 [Ka Kha Ga Gha Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]",null],"14":["AA'  SandhiMark' lookup lookup_1 uni25CC'  SandhiMark' ",null],"15":["AA'  SandhiMark' lookup lookup_1 SandhiMark' ",null]}},"1":[null,{"type":"chained_sequence_context","rules":["[KSsa KKa KTa KTVa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"2":[null,{"type":"chained_sequence_context","rules":["[Ca GRa BhRa HYa KPRa]'  [U UU]' lookup lookup_0"]}],"3":[null,{"type":"chained_sequence_context","rules":["[Ca GRa BhRa HYa KPRa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"4":[null,{"type":"chained_sequence_context","rules":["[Ka Kha Ga uni01A2 Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"5":[null,{"type":"chained_sequence_context","rules":["I' lookup lookup_4 [KSsa KKa KTa KTVa]'  ShortVowelMark' lookup lookup_3"]}],"6":[null,{"type":"chained_sequence_context","rules":["I' lookup lookup_4 [Ca GRa BhRa HYa KPRa]'  ShortVowelMark' lookup lookup_3"]}],"7":[null,{"type":"chained_sequence_context","rules":["I' lookup lookup_4 [Ka Kha Ga uni01A2 Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  ShortVowelMark' lookup lookup_3"]}],"8":[null,{"type":"chained_sequence_context","rules":["I'  [KSsa KKa KTa KTVa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"9":[null,{"type":"chained_sequence_context","rules":["I'  [Ca GRa BhRa HYa KPRa]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"10":[null,{"type":"chained_sequence_context","rules":["I'  [Ka Kha Ga uni01A2 Nga Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa TRa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha RTRa JJVa RKSsa RVYa RTr SMr]'  SandhiMark' lookup lookup_2 [Ka Kha Ga uni01A2 Nga Ca Cha Ja Jha Nya Tta Ttha Dda Ddha Nna Ta Tha Da Dha Na Pa Pha Ba Bha Ma Ya Ra La Lla Va Sha Ssa Sa Ha JYa TYa DYa GRa TRa BhRa KSsa KKa KTa NgKa JJa RKa RGa RJa RVa RNna RTha RYa RSsa RHa RTa JNya TTha DDha NTha NDha SsTta SsTtha SsNna STha HYa NnDda TSa NTa STa SMa NgNga JNna TtKa NnSha KPRa RTRa JJVa RKSsa RVYa KTVa RTr SMr]"]}],"11":[null,{"type":"chained_sequence_context","rules":["SandhiMark' lookup lookup_0 Separator' "]}],"12":[null,{"type":"chained_sequence_context","rules":["AA'  SandhiMark' lookup lookup_1 uni25CC'  SandhiMark' "]}],"13":[null,{"type":"chained_sequence_context","rules":["AA'  SandhiMark' lookup lookup_1 SandhiMark' "]}],"14":[null,{"type":"chained_sequence_context","rules":["Separator'  uni25CC' lookup lookup_1 SandhiMark' "]}],"15":[null,{"type":"chained_sequence_context","rules":["Separator'  SandhiMark' lookup lookup_0"]}]}}},"cmap":{"U+11194":["Gha","uni01A2"]},"head":{"checksum_adjustment":[2884915637,3056420683],"modified":[3749353347,3813910784]},"hhea":{"caret_slope_rise":[1,1000]},"hmtx":{"Gha":[{"width":747,"lsb":24},null],"uni01A2":[null,{"width":747,"lsb":24}]}},"cmap_diff":{},"locations":[{"location":"Default","words":{}}]};
+		function buildLocation_statichtml(loc) {
+  // Set font styles to appropriate axis locations
+  let rule = document.styleSheets[0].cssRules[2].style;
+  let cssSetting = "";
+  let textLocation = "Default";
+  if (loc.coords) {
+    cssSetting = Object.entries(loc.coords)
+      .map(function ([axis, value]) {
+        return `"${axis}" ${value}`;
+      })
+      .join(", ");
+    textLocation = Object.entries(loc.coords)
+      .map(function ([axis, value]) {
+        return `${axis}=${value}`;
+      })
+      .join(" ");
+    rule.setProperty("font-variation-settings", cssSetting);
+  }
+
+  $("#main").empty();
+
+  $("#title").html(`<h4 class="mt-2">${textLocation}</h2>`);
+
+  if (loc.glyphs) {
+    $("#main").append("<h4>Modified Glyphs</h4>");
+    let glyphs = $("<div>");
+    for (let glyph of loc.glyphs) {
+      addAGlyph(glyph, glyphs);
+    }
+    $("#main").append(glyphs);
+  }
+
+  if (loc.words) {
+    $("#main").append("<h4>Modified Words</h4>");
+    for (let [script, words] of Object.entries(loc.words)) {
+      let scriptTitle = $(`<h6>${script}</h6>`);
+      $("#main").append(scriptTitle);
+      let worddiv = $("<div>");
+      for (let word of words) {
+        addAWord(word, worddiv);
+      }
+      $("#main").append(worddiv);
+    }
+  }
+  $('[data-toggle="tooltip"]').tooltip();
+}
+
+$(function () {
+  if (report["tables"]) {
+    diffTables(report);
+  }
+  if (report["kerns"]) {
+    diffKerns(report);
+  }
+  cmapDiff(report);
+  $('[data-toggle="tooltip"]').tooltip();
+  if (!report["locations"]) {
+    $("#title").html("<h4 class='mt-2'>No differences found</h4>");
+    $("#ui-nav").hide();
+    return;
+  }
+
+  for (var [index, loc] of report["locations"].entries()) {
+    var loc_nav = $(`<li class="nav-item">
+		<a class="nav-link text-secondary" href="#" data-index="${index}">${loc.location.replaceAll(
+      ",",
+      ",\u200b"
+    )}</a>
+	</li>`);
+    $("#locationnav").append(loc_nav);
+  }
+  $("#locationnav li a").on("click", function (e) {
+    $("#locationnav li a").removeClass("active");
+    $(this).addClass("active");
+    buildLocation_statichtml(report.locations[$(this).data("index")]);
+  });
+  $("#locationnav li a").eq(0).click();
+
+  document.styleSheets[0].cssRules[0].style.setProperty(
+    "src",
+    "url(old-NotoSansSharada-Regular.ttf)"
+  );
+  document.styleSheets[0].cssRules[1].style.setProperty(
+    "src",
+    "url(new-NotoSansSharada-Regular.ttf)"
+  );
+  setupAnimation();
+});
+
+	</script>
+</body>
+
+</html>
